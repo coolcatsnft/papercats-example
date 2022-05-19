@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { envDefault } from "../utils";
 
 export function Web3ButtonComponent() {
   useEffect(() => {
@@ -18,7 +19,8 @@ export function Web3ButtonComponent() {
         js.src = f;
         js.async = 1;
         fjs.parentNode.insertBefore(js, fjs);
-      }(window, document, 'script', 'mw', 'https://coolcatsnft.github.io/web3-widget/main.js'));`;
+      }(window, document, 'script', 'mw', 'https://coolcatsnft.github.io/web3-widget/main.js'));
+      mw('NETWORK_ID', ${envDefault('REACT_APP_NETWORKID', 4)});`;
       document.body.appendChild(s);
     }
   }, []);

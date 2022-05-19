@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { env } from "../utils";
 import { useWeb3 } from "./Web3";
 
 type IPaperCatsContext = {
@@ -28,11 +29,12 @@ const Defaults = {
   mintPaperCats: (): void => {}
 };
 
-const PAPER_CATS_CONTRACT = "0x34b30ace737ffe8112da5cf6bfcb86744e9bea87";
-const ABI_LOCALSTORAGE_KEY = 'papercats-abi';
-const ADOPT_PRICE = ".0005";
-const GASPRICE_INCREMENT = 1.13;
-const GAS_INCREMENT = 1.2;
+const PAPER_CATS_CONTRACT = env('REACT_APP_PAPER_CATS_CONTRACT');
+const ABI_LOCALSTORAGE_KEY = env('REACT_APP_ABI_LOCALSTORAGE_KEY');
+const ADOPT_PRICE = env('REACT_APP_ADOPT_PRICE');
+const GASPRICE_INCREMENT = env('REACT_APP_GASPRICE_INCREMENT');
+const GAS_INCREMENT = env('REACT_APP_GAS_INCREMENT');
+
 const PaperCatsContext = createContext<IPaperCatsContext>(Defaults);
 
 const PaperCatsProvider = ({ children }: IProviderChildren) => {
@@ -118,24 +120,24 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
     setError(error);
   }
 
-  const handleTransactionConfirmation = (confirmationNumber: number, detail: any) => {
+  const handleTransactionConfirmation = (confirmationNumber: number, detail: any, callback?: Function) => {
     setConfirmationNumber(confirmationNumber);
     setMinting(false);
     
-    if (Array.isArray(detail)) {
-      detail.forEach((d: any) => addPaperCat(d));
-    } else {
-      addPaperCat(detail);
+    if (detail && detail?.events?.Transfer) {
+      if (Array.isArray(detail?.events?.Transfer)) {
+        setPaperCats([...(paperCats || []), ...detail?.events?.Transfer.map((t: any) => t.returnValues.tokenId)]);
+      } else {
+        setPaperCats([...(paperCats || []), ...[detail?.events?.Transfer.returnValues.tokenId]]);
+      }
+    }
+
+    if (callback) {
+      callback();
     }
   }
 
-  const addPaperCat = (detail: any) => {
-    const newPaperCats = [...(paperCats || [])];
-    newPaperCats.push(detail.events.Transfer.returnValues.tokenId);
-    setPaperCats(newPaperCats);
-  }
-
-  const mintPaperCats = (amount: number) => {
+  const mintPaperCats = (amount: number, callback?: Function) => {
     setError(null);
     setMinting(true);
     const priceInWei = library.utils.toWei(ADOPT_PRICE) * amount;
@@ -168,7 +170,9 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
             handleMintTransactionHash
           ).on(
             "confirmation",
-            handleTransactionConfirmation
+            (confirmationNumber: number, detail: any) => {
+              handleTransactionConfirmation(confirmationNumber, detail, callback);
+            }
           ).on(
             "error",
             handleMintError

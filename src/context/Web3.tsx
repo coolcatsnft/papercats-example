@@ -2,7 +2,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 type IWeb3Context = {
   library: any,
-  address: string
+  address: string,
+  balance: string,
+  checkingBalance: boolean,
+  fetchBalance: Function
 };
 
 interface IProviderChildren {
@@ -11,7 +14,10 @@ interface IProviderChildren {
 
 const Defaults = {
   library: null,
-  address: ''
+  address: '',
+  balance: '0',
+  checkingBalance: false,
+  fetchBalance: () => {}
 };
 
 const Web3Context = createContext<IWeb3Context>(Defaults);
@@ -19,6 +25,9 @@ const Web3Context = createContext<IWeb3Context>(Defaults);
 const Web3Provider = ({ children }: IProviderChildren) => {
   const [library, setLibrary] = useState<any>(Defaults.library);
   const [address, setAddress] = useState<string>(Defaults.address);
+  const [balance, setBalance] = useState<string>(Defaults.balance);
+  const [checkingBalance, setCheckingBalance] = useState<boolean>(Defaults.checkingBalance);
+  const [reFetchBalance, setReFetchBalance] = useState<boolean>(false);
 
   useEffect(() => {
     const handleWidgetEvent = (e: any) => {
@@ -35,10 +44,35 @@ const Web3Provider = ({ children }: IProviderChildren) => {
     document.addEventListener('web3-widget-event', handleWidgetEvent);
   }, [address, library]);
 
+  useEffect(() => {
+    if (!address || !library) {
+      setBalance(Defaults.balance);
+      return;
+    }
+
+    const getBalance = () => {
+      setCheckingBalance(true);
+      return library.eth.getBalance(address).then((balance: string) => {
+        setBalance(balance);
+        setCheckingBalance(false);
+        setReFetchBalance(false);
+      });
+    }
+
+    getBalance();
+  }, [address, library, reFetchBalance]);
+
+  const fetchBalance = () => {
+    setReFetchBalance(true);
+  }
+
   return (
     <Web3Context.Provider value={{
       address,
-      library
+      library,
+      balance,
+      checkingBalance,
+      fetchBalance
     }}>
       { children }
     </Web3Context.Provider>
