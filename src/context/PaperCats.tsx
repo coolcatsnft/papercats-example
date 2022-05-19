@@ -35,49 +35,59 @@ const ADOPT_PRICE = env('REACT_APP_ADOPT_PRICE');
 const GASPRICE_INCREMENT = env('REACT_APP_GASPRICE_INCREMENT');
 const GAS_INCREMENT = env('REACT_APP_GAS_INCREMENT');
 
+const fetchAbi = (): Promise<string> => {
+  return fetch(`//api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${PAPER_CATS_CONTRACT}&format=raw`).then((res: any) => {
+    if (res.status !== 200) {
+      throw new Error('Error connecting to etherscan');
+    }
+    return res.json().then((json: any) => {
+      if (json.message === "NOTOK") {
+        throw new Error('Error parsing abi json');
+      }
+      
+      return json;
+    });
+  });
+}
+
 const PaperCatsContext = createContext<IPaperCatsContext>(Defaults);
 
 const PaperCatsProvider = ({ children }: IProviderChildren) => {
   const { library, address } = useWeb3();
   const [contract, setContract] = useState<any>(Defaults.contract);
   const [loading, setLoading] = useState<boolean>(Defaults.loading);
+  const [fetchingAbi, setFetchingAbi] = useState<boolean>(false);
   const [minting, setMinting] = useState<boolean>(Defaults.minting);
   const [confirmationNumber, setConfirmationNumber] = useState<number>(Defaults.confirmationNumber);
   const [error, setError] = useState<Error|null>(Defaults.error);
   const [mintingTransaction, setMintingTransaction] = useState<string>(Defaults.mintingTransaction);
   const [paperCats, setPaperCats] = useState<string[]|null>(Defaults.paperCats);
-  const [paperCatsAbi, setAbi] = useLocalStorage<any>(ABI_LOCALSTORAGE_KEY, null);
+  const [paperCatsAbi, setAbi] = useLocalStorage<string|null>(ABI_LOCALSTORAGE_KEY, null);
 
   useEffect(() => {
-    if (address && library && !paperCatsAbi) {
-      const fetchAbi = () => {
-        return fetch(`//api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${PAPER_CATS_CONTRACT}&format=raw`).then((res: any) => {
-          if (res.status !== 200) {
-            throw new Error('Error connecting to etherscan');
-          }
-          return res.json().then((json: any) => {
-            if (json.message === "NOTOK") {
-              throw new Error('Error parsing abi json');
-            }
-            
-            setAbi(JSON.stringify(json));
-            return json;
-          });
-        });
-      }
+    if (address && library && !paperCatsAbi && !fetchingAbi) {
+      setFetchingAbi(true);
+    }
+  }, [paperCatsAbi, address, library, fetchingAbi])
 
-      setLoading(true);
-      fetchAbi().then(() => {
-        setLoading(false);
+  useEffect(() => {
+    if (fetchingAbi) {
+      fetchAbi().then((newAbi: string) => {
+        setAbi(newAbi);
+        setFetchingAbi(false);
       }).catch((err: Error) => {
         setError(err);
+        setFetchingAbi(false);
       });
     }
-  }, [paperCatsAbi, address, library, setAbi])
+
+  // TODO: see how to resolve this.  adding setAbi to deps causes a double api call
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchingAbi])
 
   useEffect(() => {
     if (paperCatsAbi && !contract && library) {
-      setContract(new library.eth.Contract(JSON.parse(paperCatsAbi), PAPER_CATS_CONTRACT));
+      setContract(new library.eth.Contract(paperCatsAbi, PAPER_CATS_CONTRACT));
     }
 
     if (!library) {
@@ -185,7 +195,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   return (
     <PaperCatsContext.Provider value={{
       contract,
-      loading,
+      loading: loading || fetchingAbi,
       minting,
       error,
       mintingTransaction,

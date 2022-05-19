@@ -1,9 +1,9 @@
-import { Container, Header, List } from "@alex-coolcats/cool-cats-web-components";
+import { Container, Dots, Header, List } from "@alex-coolcats/cool-cats-web-components";
 import { usePaperCats } from "../context/PaperCats";
 import { useWeb3 } from "../context/Web3";
 
 export default function Intro() {
-  const { contract } = usePaperCats();
+  const { contract, loading } = usePaperCats();
   const { balance, checkingBalance, library } = useWeb3();
   return (
     <Container>
@@ -16,6 +16,7 @@ export default function Intro() {
           <>You will need some funds in your wallet.  You can get some test ETH from a faucet like <a href="https://faucets.chain.link/rinkeby" target="_blank" rel="noreferrer">this one</a>.</>
         </List>
       )}
+      {!contract && loading && <p>Fetching abi file<Dots absolute /></p>}
       {contract && library && (
         <p>
           {checkingBalance && <>Fetching balance...</>}
