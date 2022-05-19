@@ -11,9 +11,9 @@ export function CardFooter({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function Card({ children }: { children: React.ReactNode }) {
+export function Card({ children, onClick }: { children: React.ReactNode, onClick?: Function }) {
   return (
-    <Button className="card" removeBaseClass>
+    <Button className="card" removeBaseClass onClick={onClick}>
       { children }
     </Button>
   );
