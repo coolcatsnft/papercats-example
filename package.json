@@ -2,6 +2,7 @@
   "name": "paper-cats",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/papercats-example/",
   "dependencies": {
     "@alex-coolcats/cool-cats-web-components": "github:Alex-CoolCats/cool-cats-web-components#v0.1.71",
     "@testing-library/jest-dom": "^5.16.4",
