@@ -235,7 +235,7 @@ const usePaperCat = (id: number) => {
       ).call().then((tokenURI: string) => {
         return fetch(
           tokenURI,
-          { mode: "no-cors" }
+          { mode: "cors" }
         ).then((response) => response.json().then((json) => {
           setPaperCat(json);
         })).catch(() => {
