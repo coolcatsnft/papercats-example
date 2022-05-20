@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/papercats-example/static/css/main.a68f0a63.css",
-    "main.js": "/papercats-example/static/js/main.2484ab4b.js",
+    "main.css": "/papercats-example/static/css/main.754d9732.css",
+    "main.js": "/papercats-example/static/js/main.78bb2d9a.js",
     "index.html": "/papercats-example/index.html",
-    "main.a68f0a63.css.map": "/papercats-example/static/css/main.a68f0a63.css.map",
-    "main.2484ab4b.js.map": "/papercats-example/static/js/main.2484ab4b.js.map"
+    "main.754d9732.css.map": "/papercats-example/static/css/main.754d9732.css.map",
+    "main.78bb2d9a.js.map": "/papercats-example/static/js/main.78bb2d9a.js.map"
   },
   "entrypoints": [
-    "static/css/main.a68f0a63.css",
-    "static/js/main.2484ab4b.js"
+    "static/css/main.754d9732.css",
+    "static/js/main.78bb2d9a.js"
   ]
 }
