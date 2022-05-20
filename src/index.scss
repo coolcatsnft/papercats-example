@@ -11,12 +11,14 @@ code {
 
 :root {
   --background: white;
-  --text-primary: black;
+  --text-primary: #222;
+  --border-primary: #222;
 }
 
 [data-theme='dark'] {
-  --background: black;
+  --background: #222;
   --text-primary: white;
+  --border-primary: white;
 }
 
 body {
