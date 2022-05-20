@@ -1,4 +1,3 @@
-import { Container } from '@alex-coolcats/cool-cats-web-components';
 import { usePaperCats } from "../context/PaperCats";
 import PaperCat from "./PaperCat";
 
@@ -18,13 +17,13 @@ export function PaperCats() {
   }
 
   return (
-    <Container className="papercats">
+    <div className="papercats">
       { !paperCats.length && <p>No cats found :(</p> }
       { paperCats.length > 0 && paperCats.map((id: string) => {
         return (
           <PaperCat key={id} id={Number(id)} />
         )
       }) }
-    </Container>
+    </div>
   );
 }

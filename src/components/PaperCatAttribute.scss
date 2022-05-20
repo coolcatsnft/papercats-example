@@ -1,0 +1,31 @@
+.papercat__attribute {
+  margin: 0;
+  padding: calc(var(--global-padding) * 0.5);
+  display: inline-block;
+  flex-basis: 50%;
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+
+  span {
+    font-size: 11px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    color: var(--text-secondary)
+  }
+
+  strong {
+    display: block;
+    padding-top: var(--global-padding);
+  }
+}
+
+.papercat__attributes {
+  display: flex;
+  margin: calc(var(--global-margin) * 0.5) 0 0;
+  padding: 0;
+  gap: calc(var(--global-margin) * 0.5);
+}

@@ -1,6 +1,6 @@
-import { Button, Plural } from '@alex-coolcats/cool-cats-web-components';
 import { usePaperCats } from "../context/PaperCats";
 import { useWeb3 } from '../context/Web3';
+import Plural from "./Plural";
 
 export function MintPaperCat({ amount }: { amount: number }) {
   const { contract, minting, loading, mintPaperCats } = usePaperCats();
@@ -14,9 +14,9 @@ export function MintPaperCat({ amount }: { amount: number }) {
   }
 
   return (
-    <Button removeBaseClass disabled={minting || loading} onClick={mint}>
+    <button disabled={minting || loading} onClick={mint}>
       Mint {amount} Paper Cat<Plural count={amount} single="" plural="s" />
-    </Button>
+    </button>
   )
 }
 

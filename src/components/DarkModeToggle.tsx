@@ -1,22 +1,20 @@
-import useLocalStorage from '../hooks/useLocalStorage';
-import useWatchLocalStorage from '../hooks/useWatchLocalStorage';
+import { useDarkMode } from '../hooks/useDarkMode';
+
+import './DarkModeToggle.scss';
 
 export function DarkModeToggle() {
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [theme, setTheme] = useLocalStorage<string>('theme', defaultDark ? 'dark' : 'light');
-  const darkMode = useWatchLocalStorage('theme', defaultDark ? 'dark' : 'light');
+  const [theme, setTheme] = useDarkMode();
 
   return (
-    <label data-theme={darkMode.value}>
+    <label className="toggle darkmode" data-theme={theme}>
       <input
         type="checkbox"
-        checked={darkMode.value === 'dark'}
+        checked={theme === 'dark'}
         onChange={(ev) => {
           setTheme(ev.target.checked ? 'dark' : 'light');
         }}
-      />{' '}
-      Dark
+      />
+      Toggle Dark Mode
     </label>
   )
 }

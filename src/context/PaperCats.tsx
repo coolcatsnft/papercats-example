@@ -3,7 +3,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { env } from "../utils";
 import { useWeb3 } from "./Web3";
 
-type IPaperCatsContext = {
+type TPaperCatsContext = {
   contract: any,
   loading: boolean,
   minting: boolean,
@@ -13,6 +13,19 @@ type IPaperCatsContext = {
   paperCats: string[]|null,
   mintPaperCats: Function
 };
+
+export type TPaperCatAttribute = {
+  trait_type: string,
+  value: string
+};
+
+export type TPaperCat = {
+  id: string,
+  name: string,
+  description: string,
+  image: string,
+  attributes: TPaperCatAttribute[]
+}
 
 interface IProviderChildren {
   children: React.ReactNode
@@ -50,7 +63,7 @@ const fetchAbi = (): Promise<string> => {
   });
 }
 
-const PaperCatsContext = createContext<IPaperCatsContext>(Defaults);
+const PaperCatsContext = createContext<TPaperCatsContext>(Defaults);
 
 const PaperCatsProvider = ({ children }: IProviderChildren) => {
   const { library, address } = useWeb3();
@@ -224,7 +237,7 @@ const usePaperCat = (id: number) => {
   }
 
   const now = (new Date()).toLocaleDateString();
-  const [paperCat, setPaperCat] = useLocalStorage<any>(`${now}-papercat-${id}`, null);
+  const [paperCat, setPaperCat] = useLocalStorage<TPaperCat|null>(`${now}-papercat-${id}`, null);
   const [loading, setLoading] = useState<boolean>(false);
   
   useEffect(() => {
@@ -237,10 +250,10 @@ const usePaperCat = (id: number) => {
           tokenURI,
           { mode: "cors" }
         ).then((response) => response.json().then((json) => {
-          setPaperCat(json);
+          setPaperCat({...{id: String(id)}, ...json});
         })).catch(() => {
           setPaperCat({
-            id: id,
+            id: String(id),
             name: `Paper Cat #${id}`,
             description: "Some description",
             image: "https://ipfs.io/ipfs/QmUVnqroyG94LU2hBQZmhfRPu5NijmZ7ZFYeLAWrB7APrC",

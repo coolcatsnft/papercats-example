@@ -37,6 +37,10 @@
   }
 
   &__footer {
-    padding: 16px;
+    padding: var(--global-padding);
+
+    .header {
+      margin: 0 0 var(--global-margin);
+    }
   }
 }

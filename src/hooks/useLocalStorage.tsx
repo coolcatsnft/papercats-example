@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * @see https://usehooks.com/useLocalStorage/
@@ -57,6 +57,23 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const handleLocalStorageChange = (e: StorageEvent) => {
+      if (e 
+        && e.key === key 
+        && JSON.parse(e.newValue || '') !== JSON.parse(e.oldValue || '')
+      ) {
+        setStoredValue(JSON.parse(e.newValue || ''));
+      }
+    }
+    
+    window.addEventListener("storage", handleLocalStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleLocalStorageChange);
+    };
+  }, [key]);
+
   return [storedValue, setValue] as const;
 }
 

@@ -12,13 +12,19 @@ code {
 :root {
   --background: white;
   --text-primary: #222;
+  --text-secondary: #555;
   --border-primary: #222;
+  --background-inverse: #222;
+  --global-margin: 16px;
+  --global-padding: 16px;
 }
 
 [data-theme='dark'] {
   --background: #222;
   --text-primary: white;
+  --text-secondary: #bbb;
   --border-primary: white;
+  --background-inverse: white;
 }
 
 body {
@@ -30,10 +36,16 @@ body {
 .App {
   max-width: 1320px;
   margin: 0 auto;
-  padding: 16px;
+  padding: var(--global-padding);
 
   @media screen and (min-width: 1321px) {
-    padding: 16px 0;
+    padding: var(--global-padding) 0;
+  }
+
+  ul li a,
+  ol li a,
+  p a {
+    color: var(--text-secondary);
   }
 }
 
