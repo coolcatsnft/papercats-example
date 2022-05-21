@@ -17,7 +17,6 @@
   outline: 0px;
   margin: 0px;
   padding: 0px;
-  cursor: pointer;
   user-select: none;
   appearance: none;
   text-decoration: none;
@@ -38,9 +37,19 @@
 
   &__footer {
     padding: var(--global-padding);
+    background-color: var(--background);
 
     .header {
-      margin: 0 0 var(--global-margin);
+      margin: 0;
+      
+      & + * {
+        margin-top: var(--global-margin);
+      }
     }
   }
+}
+
+a.card,
+button.card {
+  cursor: pointer;
 }

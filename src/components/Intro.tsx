@@ -9,7 +9,7 @@ export default function Intro() {
   return (
     <>
       <Header size={1}>Welcome to Paper Cats!</Header>
-      {!contract && <p>Use the connect button below to connect using web3 and mint you very own Paper Cat!</p>}
+      {!contract && <p>Use the connect button to connect using web3 and mint you very own Paper Cat!</p>}
       {!contract && <p>There are a few pre-requisites you need to have in order to begin:</p>}
       {!contract && (
         <ol>

@@ -125,7 +125,6 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
       });
     }
   }, [contract, address, loading, paperCats])
-
   
   const handleMintSent = () => {
     setError(null);
@@ -205,6 +204,16 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
     });
   };
 
+  const getSortedPaperCats = () => {
+    if (paperCats) {
+      return [...paperCats].sort((a: string, b: string) => {
+        return Number(a) - Number(b);
+      })
+    }
+
+    return paperCats;
+  }
+
   return (
     <PaperCatsContext.Provider value={{
       contract,
@@ -213,7 +222,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
       error,
       mintingTransaction,
       confirmationNumber,
-      paperCats,
+      paperCats: getSortedPaperCats(),
       mintPaperCats
     }}>
       { children }

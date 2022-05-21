@@ -27,3 +27,5 @@ export function PaperCats() {
     </div>
   );
 }
+
+export default PaperCats;

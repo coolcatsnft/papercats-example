@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
+import { useDarkMode } from './hooks/useDarkMode';
 import DarkModeToggle from './components/DarkModeToggle';
 import Intro from './components/Intro';
-import MintPaperCat from './components/MintPaperCat';
-import { PaperCats } from './components/PaperCats';
+import MintButtons from './components/MintButtons';
+import MintingCat from './components/MintingCat';
+import Nav from './components/Nav';
+import PaperCats from './components/PaperCats';
 import Web3Button from './components/Web3Widget';
-import { useDarkMode } from './hooks/useDarkMode';
 
 function App() {
   const [theme] = useDarkMode();
@@ -14,15 +16,18 @@ function App() {
   }, [theme])
 
   return (
-    <div className="App">
-      <Intro />
-      <Web3Button />
-      <MintPaperCat amount={1} />
-      <MintPaperCat amount={2} />
-      <MintPaperCat amount={3} />
-      <DarkModeToggle />
-      <PaperCats />
-    </div>
+    <>
+      <MintingCat />
+      <div className="App">
+        <Nav>
+          <Web3Button />
+          <DarkModeToggle />
+        </Nav>
+        <Intro />
+        <MintButtons />
+        <PaperCats />
+      </div>
+    </>
   );
 }
 

@@ -1,11 +1,34 @@
+import { renderToStaticMarkup } from "react-dom/server";
+
 interface IPaperCatImage {
+  id?: number,
   body?: string,
   lines?: string,
   background?: string,
   heart?: string
 };
 
+export function RenderedPaperCatImage({
+  id,
+  height,
+  paperCatImage
+}: { id?: string, height?: string, paperCatImage?: IPaperCatImage }) {
+  const rendered = renderToStaticMarkup(
+    <PaperCatImage 
+      background={paperCatImage ? paperCatImage.background : undefined}
+      heart={paperCatImage ? paperCatImage.heart : undefined}
+      lines={paperCatImage ? paperCatImage.lines : undefined}
+      body={paperCatImage ? paperCatImage.body : undefined}
+    />
+  );
+  const dataUri = `data:image/svg+xml;base64,${btoa(rendered)}`;
+  return (
+    <img src={dataUri} alt={id} height={height} />
+  )
+};
+
 export function PaperCatImage({
+  id,
   body = '#FFFFFF',
   lines = '#222222',
   background = '#FFFFFF',

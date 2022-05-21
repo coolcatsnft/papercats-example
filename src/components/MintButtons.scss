@@ -1,0 +1,14 @@
+.mint-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--global-padding);
+
+  button {
+    flex-basis: 100%;
+
+    @media screen and (min-width: 800px) {
+      flex-basis: calc(33% - 8px);
+    }
+  }
+}

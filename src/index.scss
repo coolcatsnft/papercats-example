@@ -14,9 +14,20 @@ code {
   --text-primary: #222;
   --text-secondary: #555;
   --border-primary: #222;
+  --button-primary: #222;
+  --button-primary-top: #666;
+  --button-text-primary: white;
   --background-inverse: #222;
   --global-margin: 16px;
   --global-padding: 16px;
+  --border-width: 1px;
+  --border-radius: 30px;
+  --toggle-button-width: 66px;
+  --toggle-button-padding: calc(var(--global-padding) * 0.25);
+  --toggle-button-height: 22px;
+  --button-height: calc(var(--toggle-button-height) + calc(var(--toggle-button-padding) * 2) + calc(var(--border-width) * 2));
+  --button-background: linear-gradient(to bottom, var(--button-primary-top), var(--button-primary));
+  --button-background-active: linear-gradient(to bottom, var(--button-primary), var(--button-primary-top));
 }
 
 [data-theme='dark'] {
@@ -25,6 +36,8 @@ code {
   --text-secondary: #bbb;
   --border-primary: white;
   --background-inverse: white;
+  --button-primary: #666;
+  --button-text-primary: #EEE;
 }
 
 body {
@@ -49,6 +62,20 @@ body {
   }
 }
 
-web3-button {
-  display: inline-block;
+button {
+  appearance: none;
+  height: var(--button-height);
+  padding: var(--toggle-button-padding) var(--global-padding);
+  border: var(--border-width) solid var(--border-primary);
+  border-radius: var(--border-radius);
+  background-image: var(--button-background);
+  color: var(--button-text-primary);
+  text-transform: uppercase;
+  transition: all 0.1;
+  font-size: 75%;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.98);
+  }
 }

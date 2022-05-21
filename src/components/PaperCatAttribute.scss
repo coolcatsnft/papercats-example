@@ -8,6 +8,7 @@
   text-align: center;
   text-transform: uppercase;
   position: relative;
+  min-height: 32px;
 
   span {
     font-size: 11px;
@@ -20,6 +21,7 @@
   strong {
     display: block;
     padding-top: var(--global-padding);
+    font-size: 12px;
   }
 }
 
