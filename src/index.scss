@@ -14,29 +14,31 @@ code {
   --text-primary: #222;
   --text-secondary: #555;
   --border-primary: #222;
-  --button-primary: #222;
-  --button-primary-top: #666;
-  --button-text-primary: white;
   --background-inverse: #222;
   --global-margin: 16px;
   --global-padding: 16px;
-  --border-width: 1px;
-  --border-radius: 30px;
   --toggle-button-width: 66px;
   --toggle-button-padding: calc(var(--global-padding) * 0.25);
   --toggle-button-height: 22px;
+
+  --border-width: 2px;
+  --border-radius: 5px;
+
+  --button-primary: #666;
+  --button-secondary: #888;
+  --button-text-primary: white;
   --button-height: calc(var(--toggle-button-height) + calc(var(--toggle-button-padding) * 2) + calc(var(--border-width) * 2));
-  --button-background: linear-gradient(to bottom, var(--button-primary-top), var(--button-primary));
-  --button-background-active: linear-gradient(to bottom, var(--button-primary), var(--button-primary-top));
+  --button-background: var(--button-primary);
+  --button-background-active: var(--button-secondary);
 }
 
 [data-theme='dark'] {
   --background: #222;
   --text-primary: white;
   --text-secondary: #bbb;
-  --border-primary: white;
+  --border-primary: #444;
   --background-inverse: white;
-  --button-primary: #666;
+
   --button-text-primary: #EEE;
 }
 
@@ -58,24 +60,54 @@ body {
   ul li a,
   ol li a,
   p a {
-    color: var(--text-secondary);
+    &:not(.button) {
+      color: var(--text-secondary);
+    }
   }
 }
 
+a.button,
 button {
   appearance: none;
   height: var(--button-height);
   padding: var(--toggle-button-padding) var(--global-padding);
   border: var(--border-width) solid var(--border-primary);
   border-radius: var(--border-radius);
-  background-image: var(--button-background);
+  background-color: var(--button-background);
   color: var(--button-text-primary);
+  text-decoration: none;
   text-transform: uppercase;
-  transition: all 0.1;
+  transition: all 0.1s;
   font-size: 75%;
   cursor: pointer;
+  position: relative;
+  font-weight: bold;
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    height: calc(100% - var(--border-width));
+    width: calc(100% - var(--border-width));
+    top: 0;
+    left: 0;
+    bottom: auto;
+    right: auto;
+    border-radius: var(--border-radius);
+    border-top: var(--border-width) solid var(--button-secondary);
+    border-left: var(--border-width) solid var(--button-secondary);
+  }
 
   &:active {
-    transform: scale(0.98);
+    padding-bottom: 2px;
+    &:after {
+      border: 0 none;
+      border-bottom: var(--border-width) solid var(--button-secondary);
+      border-right: var(--border-width) solid var(--button-secondary);
+      top: auto;
+      left: auto;
+      bottom: 0;
+      right: 0;
+    }
   }
 }

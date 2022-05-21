@@ -1,10 +1,17 @@
+import React from "react";
 import { usePaperCats } from "../context/PaperCats";
 import { useWeb3 } from "../context/Web3";
+import Error from "./Error";
 import Header from "./Header";
 
+export function Faucet({ children, className = "" }: { children?: React.ReactNode, className?: string }) {
+  return (
+    <a href="https://faucets.chain.link/rinkeby" target="_blank" rel="noreferrer" className={className}>{children}</a>
+  )
+}
 
 export default function Intro() {
-  const { contract, loading } = usePaperCats();
+  const { contract, loading, error } = usePaperCats();
   const { balance, checkingBalance, library } = useWeb3();
   return (
     <>
@@ -13,8 +20,8 @@ export default function Intro() {
       {!contract && <p>There are a few pre-requisites you need to have in order to begin:</p>}
       {!contract && (
         <ol>
-          <li>You will need a web3 wallet like <a href="https://metamask.io/" target="_blank" rel="noreferrer">metamask</a> installed</li>
-          <li>You will need some funds in your wallet.  You can get some test ETH from a faucet like <a href="https://faucets.chain.link/rinkeby" target="_blank" rel="noreferrer">this one</a>.</li>
+          <li>You will need a web3 wallet like <a href="https://metamask.io/" target="_blank" rel="noreferrer">metamask</a> installed.</li>
+          <li>You will need some funds in your wallet.  You can get some test ETH from a faucet like <Faucet>this one</Faucet>.</li>
         </ol>
       )}
       {!contract && loading && <p>Fetching abi file...</p>}
@@ -22,8 +29,10 @@ export default function Intro() {
         <p>
           {checkingBalance && <>Fetching balance...</>}
           {!checkingBalance && `Your balance is: ${library.utils.fromWei(balance) }`}
+          {error && error.toString().indexOf('balance') >= 0 && <>{' '}<Faucet className="button">Need More ETH?</Faucet></>}
         </p>
       )}
+      <Error />
     </>
   )
 }

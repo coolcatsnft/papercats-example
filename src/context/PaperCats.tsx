@@ -167,15 +167,15 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
 
   const mintPaperCats = (amount: number, callback?: Function) => {
     setError(null);
-    setMinting(true);
     const priceInWei = library.utils.toWei(ADOPT_PRICE) * amount;
     
     return library.eth.getBalance(address, (err: Error, balance: string) => {
       if (err || priceInWei > Number(balance)) {
-        setError(err || new Error("Insufficient funds to mint"));
+        setError(err || new Error("Insufficient balance to mint"));
         return;
       }
 
+      setMinting(true);
       return library.eth.getGasPrice().then((currentGasPrice: string) => {
         return contract?.methods.adopt(
           amount
