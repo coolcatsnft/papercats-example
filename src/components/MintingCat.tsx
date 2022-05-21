@@ -5,9 +5,9 @@ import Dots from './Dots';
 import { RenderedPaperCatImage } from './PaperCatImage';
 
 export function MintingCat() {
-  const { minting } = usePaperCats();
+  const { minting, error } = usePaperCats();
 
-  if (!minting) {
+  if (!minting || error) {
     return null;
   }
 

@@ -31,7 +31,7 @@ const Web3Provider = ({ children }: IProviderChildren) => {
 
   useEffect(() => {
     const handleWidgetEvent = (e: any) => {
-      if (!e || !e.detail || !e.detail.web3) {
+      if (!e || !e.detail || !e.detail.address) {
         setAddress(Defaults.address);
         setLibrary(Defaults.library);
         return;
@@ -42,7 +42,7 @@ const Web3Provider = ({ children }: IProviderChildren) => {
     };
 
     document.addEventListener('web3-widget-event', handleWidgetEvent);
-  }, [address, library]);
+  }, []);
 
   useEffect(() => {
     if (!address || !library) {

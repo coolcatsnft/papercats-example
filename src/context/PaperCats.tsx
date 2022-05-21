@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { env } from "../utils";
 import { useWeb3 } from "./Web3";
@@ -68,7 +68,6 @@ const PaperCatsContext = createContext<TPaperCatsContext>(Defaults);
 const PaperCatsProvider = ({ children }: IProviderChildren) => {
   const { library, address } = useWeb3();
   const [contract, setContract] = useState<any>(Defaults.contract);
-  const [loading, setLoading] = useState<boolean>(Defaults.loading);
   const [fetchingAbi, setFetchingAbi] = useState<boolean>(false);
   const [minting, setMinting] = useState<boolean>(Defaults.minting);
   const [confirmationNumber, setConfirmationNumber] = useState<number>(Defaults.confirmationNumber);
@@ -108,23 +107,30 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
     }
   }, [paperCatsAbi, library, contract])
 
-  useEffect(() => {
+  const fetchCats = useCallback(() => {
     if (!contract || !address) {
-      setLoading(false);
-      setPaperCats(null);
+      return;
     }
 
-    if (contract && address && !paperCats && !loading) {
-      setLoading(true);
-      contract.methods.walletOfOwner(
-        address
-      ).call().then((ids: string[]) => {
-        setPaperCats(ids);
-      }).finally(() => {
-        setLoading(false);
-      });
+    return contract.methods.walletOfOwner(
+      address
+    ).call().then((ids: string[]) => {
+      setPaperCats(ids);
+    });
+  }, [contract, address]);
+
+  useEffect(() => {
+    if (contract) {
+      fetchCats();
     }
-  }, [contract, address, loading, paperCats])
+  }, [contract, fetchCats])
+
+  useEffect(() => {
+    if (!library || !address) {
+      setPaperCats(null);
+      setContract(null);
+    }
+  }, [library, address])
   
   const handleMintSent = () => {
     setError(null);
@@ -217,7 +223,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   return (
     <PaperCatsContext.Provider value={{
       contract,
-      loading: loading || fetchingAbi,
+      loading: fetchingAbi,
       minting,
       error,
       mintingTransaction,
