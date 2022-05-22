@@ -88,8 +88,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
         setAbi(newAbi);
         setFetchingAbi(false);
       }).catch((err: Error) => {
-        setError(err);
-        setFetchingAbi(false);
+        console.error(err);
       });
     }
 
