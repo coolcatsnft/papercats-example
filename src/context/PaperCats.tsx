@@ -91,10 +91,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
         console.error(err);
       });
     }
-
-  // TODO: see how to resolve this.  adding setAbi to deps causes a double api call
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchingAbi])
+  }, [fetchingAbi, setAbi]);
 
   useEffect(() => {
     if (paperCatsAbi && !contract && library) {
