@@ -1,4 +1,5 @@
-import { usePaperCats } from "../context/PaperCats";
+
+import usePaperCats from "../hooks/usePaperCats";
 import PaperCat from "./PaperCat";
 
 import './PaperCats.scss';

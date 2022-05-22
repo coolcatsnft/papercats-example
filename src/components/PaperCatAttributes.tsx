@@ -1,5 +1,5 @@
 import React from "react";
-import { TPaperCat, TPaperCatAttribute } from "../context/PaperCats";
+import { TPaperCat, TPaperCatAttribute } from "../hooks/usePaperCat";
 
 import './PaperCatAttribute.scss';
 

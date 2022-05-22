@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { env } from "../utils";
 import { useWeb3 } from "./Web3";
@@ -13,19 +13,6 @@ type TPaperCatsContext = {
   paperCats: string[]|null,
   mintPaperCats: Function
 };
-
-export type TPaperCatAttribute = {
-  trait_type: string,
-  value: string
-};
-
-export type TPaperCat = {
-  id: string,
-  name: string,
-  description: string,
-  image: string,
-  attributes: TPaperCatAttribute[]
-}
 
 interface IProviderChildren {
   children: React.ReactNode
@@ -232,60 +219,4 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   )
 }
 
-const usePaperCats = () => {
-  const context = useContext(PaperCatsContext)
-  if (context === undefined) {
-    throw new Error('usePaperCats must be used within a PaperCatsContext')
-  }
-
-  return context
-}
-
-const usePaperCat = (id: number) => {
-  const { contract } = useContext(PaperCatsContext)
-  if (contract === undefined) {
-    throw new Error('usePaperCat must be used within a PaperCatsContext')
-  }
-
-  const now = (new Date()).toLocaleDateString();
-  const [paperCat, setPaperCat] = useLocalStorage<TPaperCat|null>(`${now}-papercat-${id}`, null);
-  const [loading, setLoading] = useState<boolean>(false);
-  
-  useEffect(() => {
-    if (contract && !paperCat && !loading) {
-      setLoading(true);
-      contract.methods.tokenURI(
-        id
-      ).call().then((tokenURI: string) => {
-        return fetch(
-          tokenURI,
-          { mode: "cors" }
-        ).then((response) => response.json().then((json) => {
-          setPaperCat({...{id: String(id)}, ...json});
-        })).catch(() => {
-          setPaperCat({
-            id: String(id),
-            name: `Paper Cat #${id}`,
-            description: "Some description",
-            image: "https://ipfs.io/ipfs/QmUVnqroyG94LU2hBQZmhfRPu5NijmZ7ZFYeLAWrB7APrC",
-            attributes: [
-              {
-                "trait_type": "background",
-                "value": "#a3c0ac"
-              }, {
-                "trait_type": "heart colour",
-                "value": "#9CB5FE"
-              }
-            ]
-          })
-        }).finally(() => {
-          setLoading(false);
-        });
-      });
-    }
-  }, [id, contract, paperCat, loading, setPaperCat])
-
-  return { loading, paperCat };
-}
-
-export { PaperCatsProvider, usePaperCats, usePaperCat }
+export { PaperCatsProvider, PaperCatsContext }

@@ -1,5 +1,5 @@
 import { PaperCatContainer } from './PaperCat';
-import { usePaperCats } from '../context/PaperCats';
+import { usePaperCats } from "../hooks/usePaperCats";
 import './MintingCat.scss';
 import Dots from './Dots';
 import { RenderedPaperCatImage } from './PaperCatImage';

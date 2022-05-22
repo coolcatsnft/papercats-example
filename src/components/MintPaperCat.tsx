@@ -1,4 +1,4 @@
-import { usePaperCats } from "../context/PaperCats";
+import { usePaperCats } from "../hooks/usePaperCats";
 import { useWeb3 } from '../context/Web3';
 import Plural from "./Plural";
 
