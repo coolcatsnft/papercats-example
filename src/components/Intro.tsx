@@ -10,6 +10,16 @@ export function Faucet({ children, className = "" }: { children?: React.ReactNod
   )
 }
 
+function convertBalance(balance: string) {
+  return Number(balance).toLocaleString(
+    undefined,
+    {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4
+    }
+  )
+}
+
 export default function Intro() {
   const { contract, loading, error } = usePaperCats();
   const { balance, checkingBalance, library } = useWeb3();
@@ -28,7 +38,7 @@ export default function Intro() {
       {contract && library && (
         <p>
           {checkingBalance && <>Fetching balance...</>}
-          {!checkingBalance && `Your balance is: ${library.utils.fromWei(balance) }`}
+          {!checkingBalance && <>{`Your balance is: ${convertBalance(library.utils.fromWei(balance)) } `}<abbr title="Ethereum">Ξ</abbr></>}
           {error && error.toString().indexOf('balance') >= 0 && <>{' '}<Faucet className="button">Need More ETH?</Faucet></>}
         </p>
       )}
