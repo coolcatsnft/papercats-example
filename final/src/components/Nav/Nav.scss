@@ -1,4 +1,8 @@
+@import '../../variables';
+
 .nav {
-  height: var(--button-height);
   position: relative;
+  @media screen and (min-width: $min-site-width) {
+    height: var(--button-height);
+  }
 }

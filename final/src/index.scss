@@ -1,3 +1,5 @@
+@import './variables';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -64,12 +66,27 @@ body {
       color: var(--text-secondary);
     }
   }
+
+  web3-button {
+    padding-top: calc(var(--button-height) + var(--global-margin));
+    display: block;
+
+    button {
+      width: 100%;
+    }
+    @media screen and (min-width: $min-site-width) {
+      padding-top: 0;
+      button {
+        width: auto;
+      }
+    }
+  }
 }
 
 a.button,
 button {
   appearance: none;
-  height: var(--button-height);
+  min-height: var(--button-height);
   padding: var(--toggle-button-padding) var(--global-padding);
   border: var(--border-width) solid var(--border-primary);
   border-radius: var(--border-radius);

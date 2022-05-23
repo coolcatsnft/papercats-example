@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .papercat__attribute {
   margin: 0;
   padding: calc(var(--global-padding) * 0.5);
@@ -15,7 +17,10 @@
     position: absolute;
     left: 0;
     width: 100%;
-    color: var(--text-secondary)
+    color: var(--text-secondary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   strong {
@@ -26,8 +31,11 @@
 }
 
 .papercat__attributes {
-  display: flex;
-  margin: calc(var(--global-margin) * 0.5) 0 0;
-  padding: 0;
-  gap: calc(var(--global-margin) * 0.5);
+  display: none;
+  @media screen and (min-width: $min-site-width) {
+    display: flex;
+    margin: calc(var(--global-margin) * 0.5) 0 0;
+    padding: 0;
+    gap: calc(var(--global-margin) * 0.5);
+  }
 }

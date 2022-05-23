@@ -2,6 +2,10 @@
 
 <img src="./assets/Paper_Cat.svg" alt="Paper Cat" height="200">
 
+## This is very much a work in progress
+<img src="./assets/Warning.svg" alt="Work in progress!" />
+But you can view the final code [here](https://github.com/coolcatsnft/papercats-example/tree/main/final).
+
 In this series of tutorials, we will be taking a user through all the necessary steps they will need to create a [React](https://reactjs.org) based application that can connect to a [Wallet](https://moralis.io/what-is-a-web3-wallet-web3-wallets-explained/) and call a blockchain contract.
 
 This repository will guide you through the following:
