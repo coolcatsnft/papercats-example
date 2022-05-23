@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { usePaperCats } from "../hooks/usePaperCats";
+import { usePaperCats } from "../../hooks/usePaperCats";
 
 import './Error.scss';
 

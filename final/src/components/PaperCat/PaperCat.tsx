@@ -1,8 +1,8 @@
-import { usePaperCat, TPaperCatAttribute } from "../hooks/usePaperCat";
-import { PAPER_CATS_CONTRACT } from "../context/PaperCats";
-import Card, { CardFooter } from "./Card";
-import Header from './Header';
-import Loading from './Loading';
+import { usePaperCat, TPaperCatAttribute } from "../../hooks/usePaperCat";
+import { PAPER_CATS_CONTRACT } from "../../context/PaperCats";
+import Card, { CardFooter } from "../Card/Card";
+import Header from '../Header/Header';
+import Loading from '../Loading/Loading';
 import PaperCatAttributes from './PaperCatAttributes';
 import { RenderedPaperCatImage } from "./PaperCatImage";
 

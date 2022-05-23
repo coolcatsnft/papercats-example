@@ -1,8 +1,9 @@
-import { PaperCatContainer } from './PaperCat';
-import { usePaperCats } from "../hooks/usePaperCats";
+import { PaperCatContainer } from '../PaperCat/PaperCat';
+import { usePaperCats } from "../../hooks/usePaperCats";
+import { RenderedPaperCatImage } from '../PaperCat/PaperCatImage';
+import Dots from '../Dots/Dots';
+
 import './MintingCat.scss';
-import Dots from './Dots';
-import { RenderedPaperCatImage } from './PaperCatImage';
 
 export function MintingCat() {
   const { minting, error } = usePaperCats();

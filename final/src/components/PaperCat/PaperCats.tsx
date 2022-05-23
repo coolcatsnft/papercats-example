@@ -1,6 +1,6 @@
 
-import usePaperCats from "../hooks/usePaperCats";
-import PaperCat from "./PaperCat";
+import usePaperCats from "../../hooks/usePaperCats";
+import PaperCat from "./../PaperCat/PaperCat";
 
 import './PaperCats.scss';
 

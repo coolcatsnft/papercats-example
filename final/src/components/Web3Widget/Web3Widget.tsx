@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { envDefault } from "../utils";
+import { envDefault } from "../../utils";
 
 export function Web3ButtonComponent() {
   useEffect(() => {

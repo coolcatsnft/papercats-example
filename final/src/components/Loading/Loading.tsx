@@ -1,4 +1,4 @@
-import Dots from "./Dots";
+import Dots from "../Dots/Dots";
 
 export function Loading() {
   return (

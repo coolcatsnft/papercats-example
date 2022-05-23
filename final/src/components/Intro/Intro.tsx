@@ -1,8 +1,8 @@
 import React from "react";
-import { usePaperCats } from "../hooks/usePaperCats";
-import { useWeb3 } from "../context/Web3";
-import Error from "./Error";
-import Header from "./Header";
+import { usePaperCats } from "../../hooks/usePaperCats";
+import { useWeb3 } from "../../context/Web3";
+import Error from "../Error/Error";
+import Header from "../Header/Header";
 
 export function Faucet({ children, className = "" }: { children?: React.ReactNode, className?: string }) {
   return (

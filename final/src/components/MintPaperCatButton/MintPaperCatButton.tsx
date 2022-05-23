@@ -1,8 +1,8 @@
-import { usePaperCats } from "../hooks/usePaperCats";
-import { useWeb3 } from '../context/Web3';
-import Plural from "./Plural";
+import { usePaperCats } from "../../hooks/usePaperCats";
+import { useWeb3 } from '../../context/Web3';
+import Plural from "../Plural/Plural";
 
-export function MintPaperCat({ amount }: { amount: number }) {
+export function MintPaperCatButton({ amount }: { amount: number }) {
   const { contract, minting, loading, mintPaperCats } = usePaperCats();
   const { fetchBalance } = useWeb3();
   const mint = () => {
@@ -20,4 +20,4 @@ export function MintPaperCat({ amount }: { amount: number }) {
   )
 }
 
-export default MintPaperCat;
+export default MintPaperCatButton;

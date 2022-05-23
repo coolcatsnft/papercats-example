@@ -13,6 +13,7 @@ jobs:
 
       - name: Install and Build 🔧 
         run: |
+          cd final
           npm install
           npm run build
       - name: Deploy 🚀
