@@ -14,6 +14,7 @@ There will be a considerable amount of code in this guide so familiarity in the 
 - CSS
 - JavaScript
 - Command line (linux, macOS, WSL or Windows)
+- Node.js and npm (Node.js package manager)
 
 You will also need:
 
