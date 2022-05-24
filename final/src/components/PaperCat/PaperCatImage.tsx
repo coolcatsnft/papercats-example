@@ -17,6 +17,7 @@ export function RenderedPaperCatImage({
 }: { id?: string, height?: string, paperCatImage?: IPaperCatImage }) {
   const [discoMode] = useDiscoMode();
   const [currentBackground, setCurrentBackground] = useState<string>(paperCatImage ? paperCatImage.background || '' : '');
+  const [currentHeart, setCurrentHeart] = useState<string>(paperCatImage ? paperCatImage.heart || '' : '');
   const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
@@ -33,15 +34,17 @@ export function RenderedPaperCatImage({
   useEffect(() => {
     if (time) {
       setCurrentBackground(`#${Math.floor(Math.random()*16777215).toString(16)}`);
+      setCurrentHeart(`#${Math.floor(Math.random()*16777215).toString(16)}`);
     } else {
       setCurrentBackground(paperCatImage ? paperCatImage.background || '' : '');
+      setCurrentHeart(paperCatImage ? paperCatImage.heart || '' : '');
     }
   }, [paperCatImage, time])
 
   const rendered = renderToStaticMarkup(
     <PaperCatImage 
       background={currentBackground ? currentBackground : undefined}
-      heart={paperCatImage ? paperCatImage.heart : undefined}
+      heart={currentHeart ? currentHeart : undefined}
       lines={paperCatImage ? paperCatImage.lines : undefined}
       body={paperCatImage ? paperCatImage.body : undefined}
     />
