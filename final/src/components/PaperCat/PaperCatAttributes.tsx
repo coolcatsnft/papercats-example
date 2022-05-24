@@ -44,7 +44,7 @@ export function PaperCatAttributes({ paperCat, loading = false }: { paperCat?: T
     )
   }
 
-  if (!paperCat || !paperCat.attributes.length) {
+  if (!paperCat || !paperCat.attributes || !paperCat.attributes.length) {
     return null;
   };
 

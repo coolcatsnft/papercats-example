@@ -134,14 +134,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   const handleTransactionConfirmation = (confirmationNumber: number, detail: any, callback?: Function) => {
     setConfirmationNumber(confirmationNumber);
     setMinting(false);
-    
-    if (detail && detail?.events?.Transfer) {
-      if (Array.isArray(detail?.events?.Transfer)) {
-        setPaperCats([...(paperCats || []), ...detail?.events?.Transfer.map((t: any) => t.returnValues.tokenId)]);
-      } else {
-        setPaperCats([...(paperCats || []), ...[detail?.events?.Transfer.returnValues.tokenId]]);
-      }
-    }
+    fetchCats();
 
     if (callback) {
       callback();

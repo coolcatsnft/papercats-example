@@ -22,7 +22,8 @@ export const usePaperCat = (id: number) => {
   }
 
   const now = (new Date()).toLocaleDateString();
-  const [paperCat, setPaperCat] = useLocalStorage<TPaperCat|null>(`${now}-papercat-${id}`, null);
+  const key = `${now}-papercat-${id}`;
+  const [paperCat, setPaperCat] = useLocalStorage<TPaperCat|null>(key, null);
   const [loading, setLoading] = useState<boolean>(false);
   
   useEffect(() => {
@@ -36,6 +37,10 @@ export const usePaperCat = (id: number) => {
           { mode: "cors" }
         ).then((response) => response.json().then((json) => {
           setPaperCat({...{id: String(id)}, ...json});
+
+          if (!json.attributes && localStorage) {
+            localStorage.removeItem(key);
+          }
         })).catch(() => {
           setPaperCat({
             id: String(id),
@@ -57,7 +62,7 @@ export const usePaperCat = (id: number) => {
         });
       });
     }
-  }, [id, contract, paperCat, loading, setPaperCat])
+  }, [id, key, contract, paperCat, loading, setPaperCat])
 
   return { loading, paperCat };
 }
