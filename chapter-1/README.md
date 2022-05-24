@@ -1,7 +1,7 @@
 # Chapter 1
 
 ## Setting up your environment
-This chapter will guide you through setting up your environment ready for development.  If you already have node installed then you can skip to the end of this tutorial to [check you have the correct version](#checking-your-environment).
+This chapter will guide you through setting up your environment ready for development.  If you already have a recent version of `Node.js` installed then you can skip to last step this tutorial: _[Checking your environment](#checking-your-environment)_.
 
 ### Installing NVM
 Throughout this guide we're going to be using `Node.js` and `npm`.  To install these we're going to use `nvm` or _Node.js version manager_.  `Nvm` abstracts a lot of the steps needed to manage different node versions on your computer and is often a recommended way to install node on a development machine (note: `nvm` is **not** recommended for production deployments).
