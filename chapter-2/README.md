@@ -1,7 +1,11 @@
 # Creating your Project
 Welcome to Chapter 2!
 
-In this chapter we are going to be walking through starting your project with the `create-react-app` toolchain.  This is perfect for creating a Single Page Application (SPA).
+In this chapter we are going to be walking through starting your project with the `create-react-app` toolchain.  This is perfect for creating a Single Page Application (SPA) to quote the [official docs](https://reactjs.org/docs/create-a-new-react-app.html):
+
+> It sets up your development environment so that you can use the latest JavaScript features, provides a nice developer experience, and optimizes your app for production. 
+
+So, in essence we get a lot of the hard work necessary for creating a SPA application done for us in a nicely abstracted package.
 
 Before we start any coding, we are going to be using the `npx` or _node package executable_ command to run the `create-react-app` binary.  `Npx` is useful because it will also ask to install the package if it is missing from your system.  To read more about `npx`, [this article](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) provides a nice primer into its role within the node ecosystem.
 
