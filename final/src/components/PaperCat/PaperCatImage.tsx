@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { useDiscoMode } from "../../hooks/useDiscoMode";
 
 interface IPaperCatImage {
   id?: number,
@@ -13,10 +15,36 @@ export function RenderedPaperCatImage({
   height,
   paperCatImage
 }: { id?: string, height?: string, paperCatImage?: IPaperCatImage }) {
+  const [discoMode] = useDiscoMode();
+  const [currentBackground, setCurrentBackground] = useState<string>(paperCatImage ? paperCatImage.background || '' : '');
+  const [currentHeart, setCurrentHeart] = useState<string>(paperCatImage ? paperCatImage.heart || '' : '');
+  const [time, setTime] = useState<number>(0);
+
+  useEffect(() => {
+    if (discoMode === 'on') {
+      const interval = setInterval(() => {
+        setTime(time => time + 1);
+      }, 1000 / 60);
+      return () => clearInterval(interval);
+    } else {
+      setTime(0);
+    }
+  }, [discoMode])
+
+  useEffect(() => {
+    if (time) {
+      setCurrentBackground(`#${Math.floor(Math.random()*16777215).toString(16)}`);
+      setCurrentHeart(`#${Math.floor(Math.random()*16777215).toString(16)}`);
+    } else {
+      setCurrentBackground(paperCatImage ? paperCatImage.background || '' : '');
+      setCurrentHeart(paperCatImage ? paperCatImage.heart || '' : '');
+    }
+  }, [paperCatImage, time])
+
   const rendered = renderToStaticMarkup(
     <PaperCatImage 
-      background={paperCatImage ? paperCatImage.background : undefined}
-      heart={paperCatImage ? paperCatImage.heart : undefined}
+      background={currentBackground ? currentBackground : undefined}
+      heart={currentHeart ? currentHeart : undefined}
       lines={paperCatImage ? paperCatImage.lines : undefined}
       body={paperCatImage ? paperCatImage.body : undefined}
     />

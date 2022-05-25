@@ -1,4 +1,5 @@
 import { useDarkMode } from '../../hooks/useDarkMode';
+import Toggle from '../Toggle/Toggle';
 
 import './DarkModeToggle.scss';
 
@@ -6,16 +7,7 @@ export function DarkModeToggle() {
   const [theme, setTheme] = useDarkMode();
 
   return (
-    <label className="toggle darkmode" data-theme={theme}>
-      <input
-        type="checkbox"
-        checked={theme === 'dark'}
-        onChange={(ev) => {
-          setTheme(ev.target.checked ? 'dark' : 'light');
-        }}
-      />
-      Toggle Dark Mode
-    </label>
+    <Toggle currentValue={theme} setter={setTheme} onValue="dark" offValue="light" className="darkmode" label="Toggle Dark Mode" />
   )
 }
 
