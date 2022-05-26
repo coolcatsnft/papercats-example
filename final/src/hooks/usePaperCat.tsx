@@ -29,38 +29,44 @@ export const usePaperCat = (id: number) => {
   useEffect(() => {
     if (contract && !paperCat && !loading) {
       setLoading(true);
-      contract.methods.tokenURI(
-        id
-      ).call().then((tokenURI: string) => {
-        return fetch(
-          tokenURI,
-          { mode: "cors" }
-        ).then((response) => response.json().then((json) => {
-          setPaperCat({...{id: String(id)}, ...json});
 
-          if (!json.attributes && localStorage) {
-            localStorage.removeItem(key);
-          }
-        })).catch(() => {
-          setPaperCat({
-            id: String(id),
-            name: `Paper Cat #${id}`,
-            description: "Some description",
-            image: "https://ipfs.io/ipfs/QmUVnqroyG94LU2hBQZmhfRPu5NijmZ7ZFYeLAWrB7APrC",
-            attributes: [
-              {
-                "trait_type": "background",
-                "value": "#a3c0ac"
-              }, {
-                "trait_type": "heart colour",
-                "value": "#9CB5FE"
-              }
-            ]
-          })
-        }).finally(() => {
-          setLoading(false);
+      // Slight bug, because we're listening to the complete event in the paper cats context
+      // we need to give the metadata server a few seconds to update before requesting our
+      // papercat data
+      setTimeout(() => {
+        contract.methods.tokenURI(
+          id
+        ).call().then((tokenURI: string) => {
+          return fetch(
+            tokenURI,
+            { mode: "cors" }
+          ).then((response) => response.json().then((json) => {
+            setPaperCat({...{id: String(id)}, ...json});
+  
+            if (!json.attributes && localStorage) {
+              localStorage.removeItem(key);
+            }
+          })).catch(() => {
+            setPaperCat({
+              id: String(id),
+              name: `Paper Cat #${id}`,
+              description: "Some description",
+              image: "https://ipfs.io/ipfs/QmUVnqroyG94LU2hBQZmhfRPu5NijmZ7ZFYeLAWrB7APrC",
+              attributes: [
+                {
+                  "trait_type": "background",
+                  "value": "#a3c0ac"
+                }, {
+                  "trait_type": "heart colour",
+                  "value": "#9CB5FE"
+                }
+              ]
+            })
+          }).finally(() => {
+            setLoading(false);
+          });
         });
-      });
+      }, 2000);
     }
   }, [id, key, contract, paperCat, loading, setPaperCat])
 
