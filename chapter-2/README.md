@@ -61,16 +61,15 @@ We suggest that you begin by typing:
   npm start
 
 Happy hacking!
-
 ```
 You have successfully installed the boilerplate to your react app!  If you follow the last instruction for now, you can launch your react app, so type the following:
 
 ```
-cd my-papercats-app   (enter)
+cd my-papercats-app (press return)
 ```
 then
 ```
-npm start (enter)
+npm start (press return)
 ```
 Your react app should start and popup a new browser window with the following:
 
