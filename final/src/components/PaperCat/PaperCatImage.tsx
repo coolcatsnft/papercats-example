@@ -24,7 +24,7 @@ export function RenderedPaperCatImage({
     if (discoMode === 'on') {
       const interval = setInterval(() => {
         setTime(time => time + 1);
-      }, 1000 / 60);
+      }, 1000 / 5);
       return () => clearInterval(interval);
     } else {
       setTime(0);
