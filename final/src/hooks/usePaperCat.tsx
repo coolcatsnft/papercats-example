@@ -66,7 +66,7 @@ export const usePaperCat = (id: number) => {
             setLoading(false);
           });
         });
-      }, 2000);
+      }, 3000);
     }
   }, [id, key, contract, paperCat, loading, setPaperCat])
 
