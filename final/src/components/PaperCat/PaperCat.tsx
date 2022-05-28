@@ -44,7 +44,7 @@ export function PaperCat({ id }: { id: number }) {
 
   if (paperCat.attributes) {
     backgroundColor = paperCat.attributes.filter((a: TPaperCatAttribute) => a.trait_type === 'background')[0];
-    heartColor = paperCat.attributes.filter((a: TPaperCatAttribute) => a.trait_type === 'heart colour')[0];
+    heartColor = paperCat.attributes.filter((a: TPaperCatAttribute) => a.trait_type === 'heart_colour')[0];
   }
   
   return (
