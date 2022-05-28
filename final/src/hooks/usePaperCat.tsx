@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { PaperCatsContext } from "../context/PaperCats";
+import { env } from "../utils";
 import useLocalStorage from "./useLocalStorage";
 
 export type TPaperCatAttribute = {
@@ -21,8 +22,7 @@ export const usePaperCat = (id: number) => {
     throw new Error('usePaperCat must be used within a PaperCatsContext')
   }
 
-  const now = (new Date()).toLocaleDateString();
-  const key = `${now}-papercat-${id}`;
+  const key = `${env('REACT_APP_PAPER_CATS_CONTRACT')}-papercat-${id}`;
   const [paperCat, setPaperCat] = useLocalStorage<TPaperCat|null>(key, null);
   const [loading, setLoading] = useState<boolean>(false);
   
