@@ -9,6 +9,7 @@ type TPaperCatsContext = {
   minting: boolean,
   error: Error|null,
   mintingTransaction: string,
+  mintingAmount: number,
   confirmationNumber: number,
   paperCats: string[]|null,
   mintPaperCats: Function
@@ -25,6 +26,7 @@ const Defaults = {
   error: null,
   mintingTransaction: "",
   confirmationNumber: 0,
+  mintingAmount: 0,
   paperCats: null,
   mintPaperCats: (): void => {}
 };
@@ -57,6 +59,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   const [contract, setContract] = useState<any>(Defaults.contract);
   const [fetchingAbi, setFetchingAbi] = useState<boolean>(false);
   const [minting, setMinting] = useState<boolean>(Defaults.minting);
+  const [mintingAmount, setMintingAmount] = useState<number>(Defaults.mintingAmount);
   const [confirmationNumber, setConfirmationNumber] = useState<number>(Defaults.confirmationNumber);
   const [error, setError] = useState<Error|null>(Defaults.error);
   const [mintingTransaction, setMintingTransaction] = useState<string>(Defaults.mintingTransaction);
@@ -129,12 +132,14 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   const handleMintError = (error: Error) => {
     setMinting(false);
     setError(error);
+    setMintingAmount(0);
   }
 
   const handleTransactionConfirmation = (confirmationNumber: number, detail: any, callback?: Function) => {
     setConfirmationNumber(confirmationNumber);
     setMinting(false);
     fetchCats();
+    setMintingAmount(0);
 
     if (callback) {
       callback();
@@ -144,6 +149,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   const mintPaperCats = (amount: number, callback?: Function) => {
     setError(null);
     const priceInWei = library.utils.toWei(ADOPT_PRICE) * amount;
+    setMintingAmount(amount);
     
     return library.eth.getBalance(address, (err: Error, balance: string) => {
       if (err || priceInWei > Number(balance)) {
@@ -203,6 +209,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
       minting,
       error,
       mintingTransaction,
+      mintingAmount,
       confirmationNumber,
       paperCats: getSortedPaperCats(),
       mintPaperCats

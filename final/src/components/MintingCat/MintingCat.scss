@@ -19,8 +19,12 @@
   + .App {
     filter: blur(3px);
     overflow: hidden;
-    height: 100vh;
-    padding: 0;
+    height: calc(100vh - (var(--global-padding) * 2));
+
+    @media screen and (min-width: 1321px) {
+      padding-left: 0;
+      padding-right: 0;
+    }
 
     &:after {
       content: "";
