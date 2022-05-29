@@ -1,27 +1,30 @@
 import React from "react";
 import { TPaperCat, TPaperCatAttribute } from "../../hooks/usePaperCat";
-
+import { getPaperCatAttributes } from "../../utils";
 import './PaperCatAttribute.scss';
 
-export function PaperCatAttributesContainer({ children }: { children?: React.ReactNode }) {
+interface IPaperCatAttributeContainer extends React.ComponentProps<"li"> {}
+interface IPaperCatAttributesContainer extends React.ComponentProps<"ul"> {}
+
+export function PaperCatAttributesContainer(props: IPaperCatAttributesContainer) {
   return (
-    <ul className="papercat__attributes">
-      {children}
+    <ul {...props} className={[(props.className || ''), "papercat__attributes"].join(' ')}>
+      {props.children}
     </ul>
   )
 }
 
-export function PaperCatAttributeContainer({ children }: { children?: React.ReactNode }) {
+export function PaperCatAttributeContainer(props: IPaperCatAttributeContainer) {
   return (
-    <li className="papercat__attribute">
-      {children}
+    <li {...props} className={[(props.className || ''), "papercat__attribute"].join(' ')}>
+      {props.children}
     </li>
   )
 }
 
 export function PaperCatAttribute({ attribute }: { attribute: TPaperCatAttribute }) {
   return (
-    <PaperCatAttributeContainer>
+    <PaperCatAttributeContainer title={attribute.trait_type}>
       <span>{attribute.trait_type}</span>
       <strong>{attribute.value}</strong>
     </PaperCatAttributeContainer>
@@ -40,6 +43,14 @@ export function PaperCatAttributes({ paperCat, loading = false }: { paperCat?: T
           <span></span>
           <strong></strong>
         </PaperCatAttributeContainer>
+        <PaperCatAttributeContainer>
+          <span></span>
+          <strong></strong>
+        </PaperCatAttributeContainer>
+        <PaperCatAttributeContainer>
+          <span></span>
+          <strong></strong>
+        </PaperCatAttributeContainer>
       </PaperCatAttributesContainer>
     )
   }
@@ -48,17 +59,18 @@ export function PaperCatAttributes({ paperCat, loading = false }: { paperCat?: T
     return null;
   };
 
-  const backgroundColor = paperCat.attributes.filter((a: TPaperCatAttribute) => a.trait_type === 'background')[0];
-  const heartColor = paperCat.attributes.filter((a: TPaperCatAttribute) => a.trait_type === 'heart_colour')[0];
+  const attributes = getPaperCatAttributes(paperCat);
 
-  if (!heartColor && !backgroundColor) {
+  if (!attributes.heart_colour && !attributes.background) {
     return null;
   }
 
   return (
     <PaperCatAttributesContainer>
-      {backgroundColor && <PaperCatAttribute attribute={backgroundColor} />}
-      {heartColor && <PaperCatAttribute attribute={heartColor} />}
+      {attributes.background && <PaperCatAttribute attribute={attributes.background} />}
+      {attributes.background_group && <PaperCatAttribute attribute={attributes.background_group} />}
+      {attributes.heart_colour && <PaperCatAttribute attribute={attributes.heart_colour} />}
+      {attributes.heart_rarity && <PaperCatAttribute attribute={attributes.heart_rarity} />}
     </PaperCatAttributesContainer>
   )
 }

@@ -40,13 +40,19 @@ export const usePaperCat = (id: number) => {
           return fetch(
             tokenURI,
             { mode: "cors" }
-          ).then((response) => response.json().then((json) => {
-            setPaperCat({...{id: String(id)}, ...json});
-  
-            if (!json.attributes && localStorage) {
-              localStorage.removeItem(key);
+          ).then((response) => {
+            if (response.status !== 200) {
+              throw new Error('Invalid response from metadata server');
             }
-          })).catch(() => {
+            
+            return response.json().then((json) => {
+              setPaperCat({...{id: String(id)}, ...json});
+              
+              if (!json.attributes && localStorage) {
+                localStorage.removeItem(key);
+              }
+            })
+          }).catch(() => {
             setPaperCat({
               id: String(id),
               name: `Paper Cat #${id}`,
@@ -57,7 +63,7 @@ export const usePaperCat = (id: number) => {
                   "trait_type": "background",
                   "value": "#a3c0ac"
                 }, {
-                  "trait_type": "heart colour",
+                  "trait_type": "heart_colour",
                   "value": "#9CB5FE"
                 }
               ]

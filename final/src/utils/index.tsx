@@ -1,3 +1,5 @@
+import { TPaperCatAttribute } from "../hooks/usePaperCat";
+
 /**
  * Get an env variable or return a default
  *
@@ -31,4 +33,24 @@ export function envDefault(name: string, defaultValue: any): any {
   }
 
   return value;
+}
+
+/**
+ * Output the current papercat attributes
+ * 
+ * @param {TPaperCat} paperCat 
+ * 
+ * @returns {TPaperCatAttributes}
+ */
+export function getPaperCatAttributes(paperCat: any) {
+  return (paperCat.attributes || []).reduce((object: any, currentAttribute: TPaperCatAttribute) => {
+    const key = currentAttribute.trait_type.replace(/\s/g, '_').toLowerCase();
+    const lbl = currentAttribute.trait_type.replace(/_/g, ' ').toLowerCase()
+    const o = {} as any;
+    o[key] = {
+      trait_type: lbl,
+      value: currentAttribute.value
+    };
+    return {...object, ...o};
+  }, {});
 }
