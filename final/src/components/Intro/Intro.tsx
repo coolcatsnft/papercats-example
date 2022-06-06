@@ -34,7 +34,8 @@ export default function Intro() {
           <li>You will need some funds in your wallet.  You can get some test ETH from a faucet like <Faucet>this one</Faucet>.</li>
         </ol>
       )}
-      {!contract && loading && <p>Fetching abi file...</p>}
+      {!contract && loading && !error && <p>Fetching abi file...</p>}
+      {!contract && !loading && error && <p>Failed to get abi file.  Please refresh and try again.</p>}
       {contract && library && (
         <p>
           {checkingBalance && <>Fetching balance...</>}

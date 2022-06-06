@@ -73,15 +73,17 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
   }, [paperCatsAbi, address, library, fetchingAbi])
 
   useEffect(() => {
-    if (fetchingAbi) {
+    if (fetchingAbi && !error) {
       fetchAbi().then((newAbi: string) => {
         setAbi(newAbi);
         setFetchingAbi(false);
       }).catch((err: Error) => {
         console.error(err);
+        setError(new Error(`Error fetching ABI file: ${err.toString()}`));
+        setFetchingAbi(false);
       });
     }
-  }, [fetchingAbi, setAbi]);
+  }, [fetchingAbi, setAbi, error]);
 
   useEffect(() => {
     if (paperCatsAbi && !contract && library) {
