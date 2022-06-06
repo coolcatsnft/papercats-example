@@ -8,11 +8,15 @@ After running `npm start` the React project encourages you to start editing the 
 
 <img src='../assets/chapter-3-index.js.png' width="400" align="center" />
 
-Lets remove it and replace it with some simple text and save the file to this:
+What you see here is our `App` component with some html.  One thing to note is that although it looks like html, this code is actually [JSX](https://reactjs.org/docs/introducing-jsx.html).  To quote the react docs:
+
+> It is called JSX, and it is a syntax extension to JavaScript. We recommend using it with React to describe what the UI should look like. JSX may remind you of a template language, but it comes with the full power of JavaScript.
+
+Lets most of the default JSX and replace it with some simple text and save the file to this:
 
 <img src='../assets/chapter-3-changed-index.js.png' width="400" align="center" />
 
-You will see in you're browser window that the code changes you make will immediately reflected on screen.  This is known as [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) and is provided by the [Webpack](https://webpack.js.org/) bundler that is used by `react-create-app`.
+You will see in you're browser window that the code changes you make will immediately reflected on screen!  This is known as [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) and is provided by the [Webpack](https://webpack.js.org/) bundler that is used by `react-create-app`.
 
 Whilst we're here, lets have a look at the `src/App.css` file too:
 
