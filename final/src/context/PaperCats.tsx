@@ -33,7 +33,6 @@ const Defaults = {
 
 export const PAPER_CATS_CONTRACT = env('REACT_APP_PAPER_CATS_CONTRACT');
 const ABI_LOCALSTORAGE_KEY = env('REACT_APP_ABI_LOCALSTORAGE_KEY');
-const ADOPT_PRICE = env('REACT_APP_ADOPT_PRICE');
 const GASPRICE_INCREMENT = env('REACT_APP_GASPRICE_INCREMENT');
 const GAS_INCREMENT = env('REACT_APP_GAS_INCREMENT');
 
@@ -150,17 +149,21 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
 
   const mintPaperCats = (amount: number, callback?: Function) => {
     setError(null);
-    const priceInWei = library.utils.toWei(ADOPT_PRICE) * amount;
     setMintingAmount(amount);
-    
-    return library.eth.getBalance(address, (err: Error, balance: string) => {
-      if (err || priceInWei > Number(balance)) {
-        setError(err || new Error("Insufficient balance to mint"));
-        return;
-      }
 
-      setMinting(true);
-      return library.eth.getGasPrice().then((currentGasPrice: string) => {
+    return Promise.all([
+      contract?.methods._price().call(),
+      library.eth.getGasPrice()
+    ]).then((data: any) => {
+      const priceInWei = library.utils.toWei(data[0]) * amount;
+      const currentGasPrice = data[1];
+      return library.eth.getBalance(address, (err: Error, balance: string) => {
+        if (err || priceInWei > Number(balance)) {
+          setError(err || new Error("Insufficient balance to mint"));
+          return;
+        }
+  
+        setMinting(true);
         return contract?.methods.adopt(
           amount
         ).estimateGas({
@@ -191,7 +194,7 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
           );
         }).catch(handleMintError)
       }).catch(handleMintError);
-    });
+    })
   };
 
   const getSortedPaperCats = () => {

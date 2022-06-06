@@ -43,14 +43,6 @@ export function PaperCatAttributes({ paperCat, loading = false }: { paperCat?: T
           <span></span>
           <strong></strong>
         </PaperCatAttributeContainer>
-        <PaperCatAttributeContainer>
-          <span></span>
-          <strong></strong>
-        </PaperCatAttributeContainer>
-        <PaperCatAttributeContainer>
-          <span></span>
-          <strong></strong>
-        </PaperCatAttributeContainer>
       </PaperCatAttributesContainer>
     )
   }
