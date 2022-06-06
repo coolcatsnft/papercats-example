@@ -153,8 +153,14 @@ const PaperCatsProvider = ({ children }: IProviderChildren) => {
 
     return Promise.all([
       contract?.methods._price().call(),
-      library.eth.getGasPrice()
+      library.eth.getGasPrice(),
+      contract?.methods._paused().call()
     ]).then((data: any) => {
+      if (data[2] === true) {
+        setError(new Error("Minting is currently paused"));
+        return;
+      }
+      
       const priceInWei = library.utils.toWei(data[0]) * amount;
       const currentGasPrice = data[1];
       return library.eth.getBalance(address, (err: Error, balance: string) => {
