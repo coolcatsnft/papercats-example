@@ -22,7 +22,7 @@ function convertBalance(balance: string) {
 
 export default function Intro() {
   const { contract, loading, error } = usePaperCats();
-  const { balance, checkingBalance, library } = useWeb3();
+  const { balance, library } = useWeb3();
   return (
     <>
       <Header size={1}>Welcome to Paper Cats!</Header>
@@ -38,8 +38,7 @@ export default function Intro() {
       {!contract && !loading && error && <p>Failed to get abi file.  Please refresh and try again.</p>}
       {contract && library && (
         <p>
-          {checkingBalance && <>Fetching balance...</>}
-          {!checkingBalance && <>{`Your balance is: ${convertBalance(library.utils.fromWei(balance)) } `}<abbr title="Ethereum">Ξ</abbr></>}
+          Your balance is: {convertBalance(balance)}<abbr title="Ethereum">Ξ</abbr>
           {error && error.toString().indexOf('balance') >= 0 && <>{' '}<Faucet className="button">Need More ETH?</Faucet></>}
         </p>
       )}
