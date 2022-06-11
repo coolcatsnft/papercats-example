@@ -26,6 +26,6 @@ If we remove all of the code from `src/App.css` and save the file, we should see
 
 <img src='../assets/chapter-3-changed-app.png' width="400" align="center" />
 
-Feel free to modify the `src/App.js` and `src/App.css` more and play around with live edits in your browser.  Thats is for this chapter.  Here we have learnt briefly about `JSX` and that making code edits will do a live reload of our site which should help speed up development time! 
+Feel free to modify the `src/App.js` and `src/App.css` more and play around with live edits in your browser as thats is for this chapter.  Here we have learnt briefly about `JSX` and that making code edits will do a live reload of our site which should help speed up development time! 
 
-In [Chapter 4](../chapter-4) we'll start looking at adding new Web3 connect component onto our site.
+In [Chapter 4](../chapter-4) we'll start looking at adding a [new Web3 connect component](https://github.com/coolcatsnft/web3-widget) onto our site.
