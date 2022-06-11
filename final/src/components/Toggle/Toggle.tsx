@@ -36,7 +36,9 @@ export function Toggle({
 export default Toggle;
 
 const ToggleLabel = styled.label`
-  background-color: rgba(255, 255, 255, 0.56);
+  background-color: var(--button-secondary);
+  color: var(--button-text-primary);
+  font-weight: bold;
   border-radius: var(--border-radius);
   overflow: hidden;
   width: var(--toggle-button-width);

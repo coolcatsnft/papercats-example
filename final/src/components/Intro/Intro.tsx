@@ -1,4 +1,5 @@
 import React from "react";
+import styled from 'styled-components';
 import { usePaperCats } from "../../hooks/usePaperCats";
 import { useWeb3 } from "../../context/Web3";
 import Error from "../Error/Error";
@@ -20,6 +21,10 @@ function convertBalance(balance: string) {
   )
 }
 
+const Eth = styled.abbr`
+  cursor: help;
+`;
+
 export default function Intro() {
   const { contract, loading, error } = usePaperCats();
   const { balance, library } = useWeb3();
@@ -38,7 +43,7 @@ export default function Intro() {
       {!contract && !loading && error && <p>Failed to get abi file.  Please refresh and try again.</p>}
       {contract && library && (
         <p>
-          Your balance is: {convertBalance(balance)}<abbr title="Ethereum">Ξ</abbr>
+          Your balance is: {convertBalance(balance)}<Eth title="Ethereum">Ξ</Eth>
           {error && error.toString().indexOf('balance') >= 0 && <>{' '}<Faucet className="button">Need More ETH?</Faucet></>}
         </p>
       )}
