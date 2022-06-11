@@ -1,13 +1,16 @@
 import React from "react";
-
-import './Nav.scss';
+import styled from 'styled-components';
 
 export function Nav({ children }: { children?: React.ReactNode }) {
   return (
-    <nav className="nav">
+    <Styled>
       {children}
-    </nav>
+    </Styled>
   )
 }
 
 export default Nav;
+
+const Styled = styled.nav`
+  position: relative;
+`;

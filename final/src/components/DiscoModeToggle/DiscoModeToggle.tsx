@@ -1,8 +1,6 @@
 import { useDiscoMode } from '../../hooks/useDiscoMode';
 import Toggle from '../Toggle/Toggle';
 
-import './DiscoMode.scss';
-
 export function DiscoModeToggle() {
   const [discoMode, setDiscoMode] = useDiscoMode();
 

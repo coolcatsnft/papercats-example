@@ -1,26 +1,51 @@
 import React from "react";
+import styled from 'styled-components';
 import { TPaperCat, TPaperCatAttribute } from "../../hooks/usePaperCat";
 import { getPaperCatAttributes } from "../../utils";
-import './PaperCatAttribute.scss';
+import { device } from "../../utils/device";
 
-interface IPaperCatAttributeContainer extends React.ComponentProps<"li"> {}
-interface IPaperCatAttributesContainer extends React.ComponentProps<"ul"> {}
+export const PaperCatAttributesContainer = styled.ul`
+  display: none;
+  @media ${device.tablet} {
+    display: flex;
+    flex-wrap: wrap;
+    margin: calc(var(--global-margin) * 0.5) 0 0;
+    padding: 0;
+    gap: calc(var(--global-margin) * 0.5);
+    justify-content: space-between;
+  }
+`;
 
-export function PaperCatAttributesContainer(props: IPaperCatAttributesContainer) {
-  return (
-    <ul {...props} className={[(props.className || ''), "papercat__attributes"].join(' ')}>
-      {props.children}
-    </ul>
-  )
-}
+export const PaperCatAttributeContainer = styled.li`
+  margin: 0;
+  padding: calc(var(--global-padding) * 0.5);
+  display: inline-block;
+  flex-basis: calc(50% - var(--global-padding) / 2);
+  border: 1px solid var(--border-primary);
+  border-radius: 4px;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  min-height: 32px;
 
-export function PaperCatAttributeContainer(props: IPaperCatAttributeContainer) {
-  return (
-    <li {...props} className={[(props.className || ''), "papercat__attribute"].join(' ')}>
-      {props.children}
-    </li>
-  )
-}
+  span {
+    font-size: 11px;
+    position: absolute;
+    left: 0;
+    width: calc(100% - var(--global-padding));
+    color: var(--text-secondary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 calc(var(--global-padding) * 0.5);
+  }
+
+  strong {
+    display: block;
+    padding-top: var(--global-padding);
+    font-size: 12px;
+  }
+`;
 
 export function PaperCatAttribute({ attribute }: { attribute: TPaperCatAttribute }) {
   return (

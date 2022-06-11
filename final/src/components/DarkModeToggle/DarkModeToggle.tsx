@@ -1,8 +1,6 @@
 import { useDarkMode } from '../../hooks/useDarkMode';
 import Toggle from '../Toggle/Toggle';
 
-import './DarkModeToggle.scss';
-
 export function DarkModeToggle() {
   const [theme, setTheme] = useDarkMode();
 

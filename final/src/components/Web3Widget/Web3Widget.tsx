@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { envDefault } from "../../utils";
 
-import '../Button/Button.scss';
-
 export function Web3ButtonComponent() {
   useEffect(() => {
     const id = 'web3-button-script';
