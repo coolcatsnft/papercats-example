@@ -36,7 +36,7 @@ export function Toggle({
 export default Toggle;
 
 const ToggleLabel = styled.label`
-  background-color: var(--button-secondary);
+  background-color: var(--button-primary);
   color: var(--button-text-primary);
   font-weight: bold;
   border-radius: var(--border-radius);
@@ -53,10 +53,6 @@ const ToggleLabel = styled.label`
 
   & + .toggle {
     right: calc(var(--toggle-button-width) + var(--global-margin));
-  }
-
-  &[data-checked="on"] {
-    background-color: var(--button-primary);
   }
   
   &.discomode {
