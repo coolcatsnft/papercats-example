@@ -21,8 +21,8 @@ export const PaperCatAttributeContainer = styled.li`
   padding: calc(var(--global-padding) * 0.5);
   display: inline-block;
   flex-basis: calc(50% - var(--global-padding) / 2);
-  border: 1px solid var(--border-primary);
-  border-radius: 4px;
+  border: var(--border-width) solid var(--border-primary);
+  border-radius: var(--border-radius);
   text-align: center;
   text-transform: uppercase;
   position: relative;

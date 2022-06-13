@@ -115,7 +115,7 @@ const ToggleLabel = styled.label`
     transform: translateX(calc(var(--toggle-button-padding) * -1));
 
     &:checked {
-      transform: translateX(calc(100% - (var(--toggle-button-padding) + (2px * 2))));
+      transform: translateX(calc(100% - (var(--toggle-button-padding) + calc(var(--border-width) * 2))));
     }
   }
 `;

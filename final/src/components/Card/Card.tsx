@@ -5,8 +5,8 @@ export const CardStyle = styled.div`
   background-color: var(--background);
   color: rgba(0, 0, 0, 0.87);
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  border: 1px solid var(--border-primary);
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--border-primary);
   overflow: hidden;
   max-width: 800px;
   -webkit-box-align: center;
