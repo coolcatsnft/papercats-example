@@ -35,8 +35,8 @@ function App() {
 
       <Web3Widget />
 
-      {address && <div>Wallet: {address}</div>}
-      {balance && <div>Balance: {balance}</div>}
+      {address && <p>Wallet: {address}</p>}
+      {balance && <p>Balance: {balance}</p>}
     </div>
   );
 }
