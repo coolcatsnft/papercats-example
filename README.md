@@ -31,10 +31,10 @@ This repository will guide you through the following:
   - [View Tutorial](chapter-1)
 - Bootstrap a new site using the [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html) toolchain.
   - [View Tutorial](chapter-2)
-- Create your first functional React component.
-- Expanding and structuring your codebase.
+- Customising your Project
+  - [View Tutorial](chapter-3)
 - Integrating a [library](https://github.com/coolcatsnft/web3-widget) to handle connecting to a web3 wallet.
-- Listening to events from a wallet and reacting to them.
+  - [View Tutorial](chapter-4)
 - Connecting to and reading data from the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
 - Minting your first paper cat!
 - Styling your app.
