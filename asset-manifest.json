@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/papercats-example/static/js/main.0d6dd726.js",
+    "main.js": "/papercats-example/static/js/main.d938552a.js",
     "index.html": "/papercats-example/index.html",
-    "main.0d6dd726.js.map": "/papercats-example/static/js/main.0d6dd726.js.map"
+    "main.d938552a.js.map": "/papercats-example/static/js/main.d938552a.js.map"
   },
   "entrypoints": [
-    "static/js/main.0d6dd726.js"
+    "static/js/main.d938552a.js"
   ]
 }
