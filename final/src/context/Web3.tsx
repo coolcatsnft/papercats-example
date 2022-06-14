@@ -25,22 +25,13 @@ const Web3Provider = ({ children }: IProviderChildren) => {
 
   useEffect(() => {
     const handleWidgetEvent = (e: any) => {
-      if (!e || !e.detail || !e.detail.address) {
-        setAddress(Defaults.address);
-        setLibrary(Defaults.library);
-        setBalance(Defaults.balance);
-        return;
-      }
-
-      if (e.detail.address !== address || e.detail.balance !== balance) {
-        setAddress(e.detail.address);
-        setBalance(e.detail.balance);
-        setLibrary(e.detail.web3);
-      }
+      setAddress(e?.detail?.address || '');
+      setBalance(e?.detail?.balance || '');
+      setLibrary(e?.detail?.web3 || null);
     };
 
     document.addEventListener('web3-widget-event', handleWidgetEvent);
-  }, [address, balance]);
+  }, []);
 
   return (
     <Web3Context.Provider value={{

@@ -11,8 +11,10 @@ import Nav from './components/Nav/Nav';
 import PaperCats from './components/PaperCat/PaperCats';
 import Web3Widget from './components/Web3Widget/Web3Widget';
 import DiscoModeToggle from './components/DiscoModeToggle/DiscoModeToggle';
+import { useWeb3 } from './context/Web3';
 
 function App() {
+  const { address } = useWeb3();
   const [theme] = useDarkMode();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ function App() {
         <Nav>
           <Web3Widget />
           <DarkModeToggle />
-          <DiscoModeToggle />
+          {address && <DiscoModeToggle />}
         </Nav>
         <Intro />
         <MintButtons />
