@@ -8,18 +8,9 @@ function App() {
 
   useEffect(() => {
     const handleWidgetEvent = (e) => {
-      if (!e || !e.detail || !e.detail.address || e.detail.status === 'disconnected') {
-        setAddress('');
-        setBalance('');
-        setLibrary(null);
-        return;
-      }
-
-      if (e.detail.address !== address) {
-        setAddress(e.detail.address);
-        setBalance(e.detail.balance);
-        setLibrary(e.detail.web3);
-      }
+      setAddress(e?.detail?.address || '');
+      setBalance(e?.detail?.balance || '');
+      setLibrary(e?.detail?.web3 || null);
     };
 
     document.addEventListener('web3-widget-event', handleWidgetEvent);
