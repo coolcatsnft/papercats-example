@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDarkMode } from './hooks/useDarkMode';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { device } from './utils/device';
 
 import DarkModeToggle from './components/DarkModeToggle/DarkModeToggle';
@@ -25,7 +25,7 @@ function App() {
     <>
       <GlobalStyle />
       <MintingCat />
-      <div className="App">
+      <Main className="App">
         <Nav>
           <Web3Widget />
           <DarkModeToggle />
@@ -34,7 +34,7 @@ function App() {
         <Intro />
         <MintButtons />
         <PaperCats />
-      </div>
+      </Main>
     </>
   );
 }
@@ -99,39 +99,6 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  .App {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: var(--global-padding);
-
-    @media ${device.maxwidth} {
-      padding: var(--global-padding) 0;
-    }
-
-    ul li a,
-    ol li a,
-    p a {
-      &:not(.button) {
-        color: var(--text-secondary);
-      }
-    }
-
-    web3-button {
-      padding-top: calc(var(--button-height) + var(--global-margin));
-      display: block;
-
-      button {
-        width: 100%;
-      }
-      @media ${device.tablet} {
-        padding-top: 0;
-        button {
-          width: auto;
-        }
-      }
-    }
-  }
-
   button {
     appearance: none;
     min-height: var(--button-height);
@@ -180,6 +147,39 @@ const GlobalStyle = createGlobalStyle`
           bottom: 0;
           right: 0;
         }
+      }
+    }
+  }
+`;
+
+const Main = styled.main`
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: var(--global-padding);
+
+  @media ${device.maxwidth} {
+    padding: var(--global-padding) 0;
+  }
+
+  ul li a,
+  ol li a,
+  p a {
+    &:not(.button) {
+      color: var(--text-secondary);
+    }
+  }
+
+  web3-button {
+    padding-top: calc(var(--button-height) + var(--global-margin));
+    display: block;
+
+    button {
+      width: 100%;
+    }
+    @media ${device.tablet} {
+      padding-top: 0;
+      button {
+        width: auto;
       }
     }
   }
