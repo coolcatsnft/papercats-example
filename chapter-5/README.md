@@ -205,4 +205,5 @@ Great job!  We have now built a framework that can provide our web3 data to all 
 ## Summary
 In this example we've briefly covered some of the methods which are used to pass data around a React application.  We've also created a new Web3 context and custom hook which our application can now use to consume our web3 data!  Feel free to browse the [code repo](https://codesandbox.io/s/chapter-5-all-about-context-spjh6f) to see our finished version.
 
+## Whats next?
 In the next chapter we will look at finally connecting to the paper cats contract.  See you there!
