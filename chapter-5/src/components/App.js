@@ -1,4 +1,4 @@
-import { useWeb3 } from '../context/Web3';
+import { useWeb3 } from '../hooks/useWeb3';
 import Web3Widget from './Web3Widget';
 
 function App() {

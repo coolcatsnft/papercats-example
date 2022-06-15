@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
-const Web3Context = createContext();
+export const Web3Context = createContext();
 
-const Web3Provider = ({ children }) => {
+export const Web3Provider = ({ children }) => {
   const [library, setLibrary] = useState(null);
   const [address, setAddress] = useState('');
   const [balance, setBalance] = useState('');
@@ -28,13 +28,4 @@ const Web3Provider = ({ children }) => {
   )
 }
 
-const useWeb3 = () => {
-  const context = useContext(Web3Context)
-  if (context === undefined) {
-    throw new Error('useWeb3 must be used within a Web3Context')
-  }
-
-  return context
-}
-
-export { Web3Provider, useWeb3 }
+export default Web3Provider;
