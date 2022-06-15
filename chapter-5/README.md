@@ -2,6 +2,9 @@
 
 We now have a working wallet connection and are successfully storing our wallet address, balance and library in our apps state. 
 
+### TLDR
+If you want to look at the example we're going to create first, here is our [finished site and code](https://codesandbox.io/s/chapter-5-all-about-context-spjh6f).
+
 ## Making our web3 data available to our app
 Looking forward we are going to need these variables accessible by the whole of our app which means we need to implement a mechanism which is capable of doing this.
 
@@ -200,4 +203,6 @@ Reloading the page should give us the same result, let's take a look!
 Great job!  We have now built a framework that can provide our web3 data to all of our components (including contexts and hooks).
 
 ## Summary
-In this example we’ve briefly covered some of the methods which are used to pass data around a React application.  We’ve also created a new Web3 context and custom hook which our application can now use to consume our web3 data!  In this next chapter we will look at finally connecting to the paper cats contract.  See you there!
+In this example we've briefly covered some of the methods which are used to pass data around a React application.  We've also created a new Web3 context and custom hook which our application can now use to consume our web3 data!  Feel free to browse the [code repo](https://codesandbox.io/s/chapter-5-all-about-context-spjh6f) to see our finished version.
+
+In the next chapter we will look at finally connecting to the paper cats contract.  See you there!
