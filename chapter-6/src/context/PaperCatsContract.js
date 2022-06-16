@@ -10,7 +10,6 @@ export const PaperCatsContractProvider = ({ children }) => {
   const [contract, setContract] = useState();
   const [loadingContract, setLoadingContract] = useState(false);
   const [contractError, setContractError] = useState();
-  const [name, setContractName] = useState('');
 
   useEffect(() => {
     const fetchAbi = () => {
@@ -20,13 +19,15 @@ export const PaperCatsContractProvider = ({ children }) => {
         }
         return res.json().then((json) => {
           if (json.message === "NOTOK") {
-            throw new Error('Error parsing abi json');
+            throw new Error(json.result || 'Error parsing abi json');
           }
           
           return json;
         });
       });
     }
+
+    console.log(contract)
     
     if (address && library && !contract && !loadingContract && !contractError) {
       const prom = fetchAbi();
@@ -35,8 +36,7 @@ export const PaperCatsContractProvider = ({ children }) => {
         setLoadingContract(false);
         setContract(new library.eth.Contract(json, PAPER_CATS_CONTRACT));
       }).catch((err) => {
-        console.error(err);
-        setContractError(new Error(`Error fetching ABI file: ${err.toString()}`));
+        setContractError(err.toString());
         setLoadingContract(false);
       });
     }
@@ -47,21 +47,9 @@ export const PaperCatsContractProvider = ({ children }) => {
     }
   }, [address, library, contract, loadingContract, contractError]);
 
-  useEffect(() => {
-    if (contract && !name) {
-      contract.methods.name.call().call().then((string) => {
-        setContractName(string);
-      });
-    }
-    if (!contract && name) {
-      setContractName('');
-    }
-  }, [contract, name]);
-
   return (
     <PaperCatsContractContext.Provider value={{
       contract,
-      name,
       loading: loadingContract,
       error: contractError
     }}>
