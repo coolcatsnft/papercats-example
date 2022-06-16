@@ -8,8 +8,6 @@ function App() {
   const { error } = usePaperCatsContract();
   const { name, totalSupply } = usePaperCatsData();
 
-  console.log(error)
-
   return (
     <div className="App">
       <h1>My Paper Cats App!</h1>
