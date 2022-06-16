@@ -35,6 +35,8 @@ This repository will guide you through the following:
   - [View Tutorial](chapter-3)
 - Integrating a [library](https://github.com/coolcatsnft/web3-widget) to handle connecting to a web3 wallet.
   - [View Tutorial](chapter-4)
+- Adding [Context](https://reactjs.org/docs/context.html) to our app to help make our web3 variables available to any subscribing components.
+  - [View Tutorial](chapter-5)
 - Connecting to and reading data from the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
 - Minting your first paper cat!
 - Styling your app.
