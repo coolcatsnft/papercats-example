@@ -276,4 +276,4 @@ Disconnecting from our app, the wallet and balance lines should be removed.  If 
 In this chapter we created a new Web3Widget component, have covered what the react hooks `useEffect` and `useState` do and have successfully used our new button to connect to a users wallet and show their wallet address and balance on screen!  Feel free to browse our [code repo](https://codesandbox.io/s/papercats-chapter-4-web3-button-0hdxjv) to see the finished version!
 
 ## Whats next?
-In the next chapter we're going to looking at using React's Context Api, custom hooks and making our wallet address, balance and library state variables accessible to other components in our app.  See you there!
+In the [next chapter](../chapter-5/) we're going to looking at using React's Context Api, custom hooks and making our wallet address, balance and library state variables accessible to other components in our app.  See you there!

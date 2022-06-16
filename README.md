@@ -23,7 +23,7 @@ You will also need:
 
 ## Aims of this Project
 
-In this series of tutorials, we will be taking a user through all the necessary steps they will need to create a [React](https://reactjs.org) based application that can connect to a [Wallet](https://moralis.io/what-is-a-web3-wallet-web3-wallets-explained/) and call a blockchain contract.
+In this series of tutorials, we will be taking a user through all the necessary steps they will need to create a [React](https://reactjs.org) based application that can connect to a [Wallet](https://moralis.io/what-is-a-web3-wallet-web3-wallets-explained/) and call a blockchain contract on the [Rinkeby](https://www.rinkeby.io/) network.
 
 This repository will guide you through the following:
 
@@ -38,6 +38,16 @@ This repository will guide you through the following:
 - Adding [Context](https://reactjs.org/docs/context.html) to our app to help make our web3 variables available to any subscribing components.
   - [View Tutorial](chapter-5)
 - Connecting to and reading data from the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
+  - [View Tutorial](chapter-6)
 - Minting your first paper cat!
 - Styling your app.
 - Hosting your app on github.
+
+### Rinkeby?
+Throughout this series of tutorials, we will be referring to a Paper Cats Contract which is hosted on the Rinkeby blockchain test network (or _testnet_).  If you haven't heard of Rinkeby or even a blockchain network, it would be worth taking some time to learn about these and how they operate.
+
+Several concepts which will be of use would be:
+- [What is a Blockchain?](https://en.wikipedia.org/wiki/Blockchain)
+- What are the [Etheruem](https://ethereum.org/en/) and [Rinkeby](http://www.alchemy.com/overviews/rinkeby-testnet) networks?
+- [Understanding](https://www.ledger.com/academy/how-to-read-a-blockchains-transaction-history) and viewing blockchain transactions (in our case this would be using [Etherscan](https://rinkeby.etherscan.io/)).
+- What is a [Smart Contract](https://ethereum.org/en/developers/docs/smart-contracts/)?
