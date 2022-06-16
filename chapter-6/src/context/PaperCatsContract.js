@@ -26,8 +26,6 @@ export const PaperCatsContractProvider = ({ children }) => {
         });
       });
     }
-
-    console.log(contract)
     
     if (address && library && !contract && !loadingContract && !contractError) {
       const prom = fetchAbi();
