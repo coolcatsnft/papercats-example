@@ -14,7 +14,7 @@ To fetch a verified contracts ABI file from the etherscan api, we can use the fo
 ```
 https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=0xB574BC3b58fED191846D678fB1B0127d35832e9A&format=raw
 ```
-If you copy and paste the above line into a browser window you should see the Paper cats ABI file in all its glory!  We could theoretcially copy and paste this JSON into our project and use that as a static import, however, where is the FUN in that! :)
+If you copy and paste the above line into a browser window you should see the Paper cats ABI file in all its glory!  We could theoretcially copy and paste this JSON into our project and use that as a static import, however, where is the [FUN](https://en.wikipedia.org/wiki/Fun) in that! :)
 
 ### Fetching the ABI programatically
 Let's get started with some code!  We are going to create a new hook which will be responsible for performing a HTTP request to the ethercan endpoint (via the native fetch api) and store its response in state for our app to use.  Create a new file in your `hooks` directory and call it `useFetchContract`.  Copy and paste the following code, I will expain what the hook is doing:
@@ -68,6 +68,6 @@ export function useFetchContract(contractAddress) {
 
 export default useFetchContract;
 ```
-In this hook we are using the native `fetch` method to call our endpoint with the `contractAddress` property as our address parameter.
+In this hook we are using the native `fetch` method to call our endpoint with the `contractAddress` property as our address parameter.  The hook, using `useEffect` is calling the `fetchAbi` when the library is fullfilled, the contract hasn't been set, there isn't a contract error and the hook itself isn't in a loading state.
 
 To be continued!
