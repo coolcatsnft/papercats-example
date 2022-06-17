@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useWeb3 from "../hooks/useWeb3";
+import useWeb3 from "./useWeb3";
 
 export const networkName = (id) => {
   switch (String(id)) {
