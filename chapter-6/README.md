@@ -52,7 +52,7 @@ export function useFetchContract(contractAddress) {
         setLoadingContract(false);
         setContract(new library.eth.Contract(json, contractAddress));
       }).catch((err) => {
-        setContractError(err.toString());
+        setContractError(err);
         setLoadingContract(false);
       });
     }
@@ -68,11 +68,11 @@ export function useFetchContract(contractAddress) {
 
 export default useFetchContract;
 ```
-In this hook we are using the native `fetch` method to call our endpoint with the `contractAddress` property as our address parameter.  The hook, using `useEffect` is calling the `fetchAbi` method when the library from our `useWeb3` hook is fullfilled providing that the contract hasn't been already been set, there isn't a contract error (rating limiting from the etherscan api is quite restrictive for free accounts) and the hook itself isn't in a loading state.
+In this hook we are using the native `fetch` method to call our endpoint with the `contractAddress` property as our address parameter.  The hook, using `useEffect` is calling the `fetchAbi` method when the library from our `useWeb3` hook is fullfilled providing that the contract hasn't been already been set, there isn't a contract error (rating limiting from the etherscan api is quite restrictive for free accounts) and the hook itself isn't in a loading state. 
 
-Once the rest call from `fetch` is completed, the resulting json body (our ABI file) can then be used to create our web3 contract object!  This is saved to our state and can then be used by our app.  There are a couple of things that we need to be aware of with this code:
+Once the rest call from `fetch` is completed, the resulting json body (our ABI file) can then be used to create our web3 contract object!  We are instantiating our contract and saving it to state in one line `setContract(library.eth.Contract(json, contractAddress))`.  Saving this to state means this can then be used by our app.  There are however, a couple of things that we need to be aware of with this code:
 
-1. On every refresh of our app, the contract will be downloaded.  This is not ideal as it can mean that the etherscan api will rate limit your requests.  In a following chapter, we'll look at using localStorage to cache the json response so we don't have to call the api end every time.
+1. On every refresh of our app, the contract will be downloaded.  This is not ideal as it can mean that the etherscan api will rate limit your requests.  In a following chapter, we'll look at using localStorage to cache the json response so we don't have to call the api end every time.  This and any other unexpected errors are caught in the `catch` and will be saved in our state (more on this later).
 2. Currently the Rinkeby network is hardcoded in the api URL.  If Papercats ever went to etheruem mainnet, we would need to make a change to accomodate this.  In our final example, I've added [some logic](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-part-1-n69jsf?file=/src/hooks/useFetchContract.js) to query the network id to get the correct api url.  Much better!
 
 Now that we have our hook, lets look at integrating it into a context, much like how we did our web3 context in the previous chapter.  Create a new context in `hooks` called `PaperCatsContract.js` and copy and paste the following example:
@@ -132,4 +132,28 @@ export default usePaperCatsContract;
 ```
 If you compare this code to the `src/hooks/useWeb3.js` file you should see that their contents are almost identical.  This pattern we will use for all of our context work throughout this series which hopefully you will find useful.
 
-To be continued!
+Let's now try adding some output to our app.  We are going to test the rate limiting error, so in our `src/components/App.js` import the `usePaperCatsContract` hook and add destrucuture the error property into our App file like so:
+```
+import { usePaperCatsContract } from "../hooks/usePaperCatsContract";
+import { useWeb3 } from "../hooks/useWeb3";
+import Web3Button from "./Web3Button";
+
+function App() {
+  const { address, balance } = useWeb3();
+  const { error } = usePaperCatsContract();
+```
+Then in the components output, add the following:
+```
+{ error && <p>{error.toString()}</p> }
+```
+Your `src/components/App.js` should now be very similar to the code in our [example file](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-part-2-hr5ppr).  If you refresh your example quickly a few times, you should now hit the rate limiting error which etherscan will enforce:
+
+<img width="472" alt="image" src="https://user-images.githubusercontent.com/92721591/174454762-952b05d3-1b0e-43ca-8b94-f16cb18c17b1.png">
+
+Perfect! We have that error handled.  In a future chapter we'll look at making sure we don't hit that error but for now, its good that its handled in a graceful manner.
+
+## Summary
+In this chapter we've covered what an ABI file is, how to fetch a (verified) contracts ABI file from the etherscan api and how to instantiate a web3 contract object from the web3.eth library.
+
+## Whats next?
+In the [next chapter](chapter-7) we will look at exporing and reading data from our contract. See you there!
