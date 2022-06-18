@@ -37,8 +37,10 @@ This repository will guide you through the following:
   - [View Tutorial](chapter-4)
 - Adding [Context](https://reactjs.org/docs/context.html) to our app to help make our web3 variables available to any subscribing components.
   - [View Tutorial](chapter-5)
-- Connecting to and reading data from the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
+- Connecting to the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
   - [View Tutorial](chapter-6)
+- Reading data from the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
+  - [View Tutorial](chapter-7)
 - Minting your first paper cat!
 - Styling your app.
 - Hosting your app on github.
