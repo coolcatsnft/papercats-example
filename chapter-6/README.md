@@ -68,6 +68,68 @@ export function useFetchContract(contractAddress) {
 
 export default useFetchContract;
 ```
-In this hook we are using the native `fetch` method to call our endpoint with the `contractAddress` property as our address parameter.  The hook, using `useEffect` is calling the `fetchAbi` when the library is fullfilled, the contract hasn't been set, there isn't a contract error and the hook itself isn't in a loading state.
+In this hook we are using the native `fetch` method to call our endpoint with the `contractAddress` property as our address parameter.  The hook, using `useEffect` is calling the `fetchAbi` method when the library from our `useWeb3` hook is fullfilled providing that the contract hasn't been already been set, there isn't a contract error (rating limiting from the etherscan api is quite restrictive for free accounts) and the hook itself isn't in a loading state.
+
+Once the rest call from `fetch` is completed, the resulting json body (our ABI file) can then be used to create our web3 contract object!  This is saved to our state and can then be used by our app.  There are a couple of things that we need to be aware of with this code:
+
+1. On every refresh of our app, the contract will be downloaded.  This is not ideal as it can mean that the etherscan api will rate limit your requests.  In a following chapter, we'll look at using localStorage to cache the json response so we don't have to call the api end every time.
+2. Currently the Rinkeby network is hardcoded in the api URL.  If Papercats ever went to etheruem mainnet, we would need to make a change to accomodate this.  In our final example, I've added [some logic](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-part-1-n69jsf?file=/src/hooks/useFetchContract.js) to query the network id to get the correct api url.  Much better!
+
+Now that we have our hook, lets look at integrating it into a context, much like how we did our web3 context in the previous chapter.  Create a new context in `hooks` called `PaperCatsContract.js` and copy and paste the following example:
+```
+import { createContext } from "react";
+import useFetchContract from "../hooks/useFetchContract";
+const PAPER_CATS_CONTRACT = "0xB574BC3b58fED191846D678fB1B0127d35832e9A";
+export const PaperCatsContractContext = createContext();
+
+export const PaperCatsContractProvider = ({ children }) => {
+  const { contract, loadingContract, contractError } = useFetchContract(
+    PAPER_CATS_CONTRACT
+  );
+
+  return (
+    <PaperCatsContractContext.Provider
+      value={{
+        contract,
+        loading: loadingContract,
+        error: contractError
+      }}
+    >
+      {children}
+    </PaperCatsContractContext.Provider>
+  );
+};
+
+export default PaperCatsContractContext;
+```
+As you can see we are using our hook with the Paper Cats contract address and passing the values from our hook into the context provider.  To make this data available, lets add our provider to our index.js file:
+```
+  <React.StrictMode>
+    <Web3Provider>
+      <PaperCatsContractProvider>
+        <App />
+      </PaperCatsDataProvider>
+    </Web3Provider>
+  </React.StrictMode>
+```
+Order is quite important when nesting multiple providers.  You should think about how the data flows in your app and have you most base level providers at the top of the tree with the more specific ones further down.  In this case, we want our contract provider to be dependent on our web3 provider, so the contract provider should be its child.
+
+Finally, in order to complete this last step of our contract provider, we should create a consumer hook for our app components.  Like the web3 hook, we just need to utilise `useContext` in our hook.  Create a new file in `src/hooks` and call it `usePaperCatsContract`.  Copy and past the following:
+```
+import { useContext } from "react";
+import { PaperCatsContractContext } from "../context/PaperCatsContract";
+
+export function usePaperCatsContract() {
+  const context = useContext(PaperCatsContractContext)
+  if (context === undefined) {
+    throw new Error('usePaperCatsContract must be used within a PaperCatsContractContext')
+  }
+
+  return context;
+}
+
+export default usePaperCatsContract;
+```
+If you compare this code to the `src/hooks/useWeb3.js` file you should see that their contents are almost identical.  This pattern we will use for all of our context work throughout this series which hopefully you will find useful.
 
 To be continued!
