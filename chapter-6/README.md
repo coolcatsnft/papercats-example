@@ -3,7 +3,7 @@
 Now we have a working Web3 connection, in this chapter we're going to get our fisrt taste of using a reading from a smart contract.  The current Paper Cats contract address on the Rinkeby network is `0xB574BC3b58fED191846D678fB1B0127d35832e9A`.  Keeping your contract address up to date is key when doing web3 development so if you are not involved with the development of the contract or contracts yourself make sure you keep informed of its development so you don't use an incorrect version.
 
 ## TLDR
-As in other projects, if you just want to see some working code, here is our working [code repo](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-part-1-n69jsf).
+As in other projects, if you just want to see some working code, here is our working [code repo]([https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-part-1-n69jsf](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-hr5ppr)).
 
 ## Obtaining an ABI file
 In order to read a smart contract, we need to use an [ABI](https://www.quicknode.com/guides/solidity/what-is-an-abi) (or Application Binary Interface) file to map the contracts methods and structures into an object that our application can use.  If you're not familiar with ABI files, its worth reading the previous link before continuing with this article.  Essentially what we're going to do is fetch some JSON (which is our ABI file) and create a web3 [Contract object](https://github.com/ChainSafe/web3.js/blob/1.x/docs/web3-eth-contract.rst) with it.  
@@ -73,7 +73,7 @@ In this hook we are using the native `fetch` method to call our endpoint with th
 Once the rest call from `fetch` is completed, the resulting json body (our ABI file) can then be used to create our web3 contract object!  We are instantiating our contract and saving it to state in one line `setContract(library.eth.Contract(json, contractAddress))`.  Saving this to state means this can then be used by our app.  There are however, a couple of things that we need to be aware of with this code:
 
 1. On every refresh of our app, the contract will be downloaded.  This is not ideal as it can mean that the etherscan api will rate limit your requests.  In a following chapter, we'll look at using localStorage to cache the json response so we don't have to call the api end every time.  This and any other unexpected errors are caught in the `catch` and will be saved in our state (more on this later).
-2. Currently the Rinkeby network is hardcoded in the api URL.  If Papercats ever went to etheruem mainnet, we would need to make a change to accomodate this.  In our final example, I've added [some logic](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-part-1-n69jsf?file=/src/hooks/useFetchContract.js) to query the network id to get the correct api url.  Much better!
+2. Currently the Rinkeby network is hardcoded in the api URL.  If Papercats ever went to etheruem mainnet, we would need to make a change to accomodate this.  In our final example, I've added [some logic](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-hr5ppr?file=/src/hooks/useFetchContract.js:86-610) to query the network id to get the correct api url.  Much better!
 
 Now that we have our hook, lets look at integrating it into a context, much like how we did our web3 context in the previous chapter.  Create a new context in `hooks` called `PaperCatsContract.js` and copy and paste the following example:
 ```
@@ -146,7 +146,7 @@ Then in the components output, add the following:
 ```
 { error && <p>{error.toString()}</p> }
 ```
-Your `src/components/App.js` should now be very similar to the code in our [example file](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-part-2-hr5ppr).  If you refresh your example quickly a few times, you should now hit the rate limiting error which etherscan will enforce:
+Your `src/components/App.js` should now be very similar to the code in our [example file](https://codesandbox.io/s/papercats-chapter-6-connecting-to-contract-hr5ppr?file=/src/components/App.js).  If you refresh your example quickly a few times, you should now hit the rate limiting error which etherscan will enforce:
 
 <img width="472" alt="image" src="https://user-images.githubusercontent.com/92721591/174454762-952b05d3-1b0e-43ca-8b94-f16cb18c17b1.png">
 
