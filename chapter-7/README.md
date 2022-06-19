@@ -18,7 +18,7 @@ Looking at the 'Read Contract' option on the [contract page](https://rinkeby.eth
 
 When using a web3 contract in javascript, you will encounter [two functions](https://bitsofco.de/calling-smart-contract-functions-using-web3-js-call-vs-send/) that you will use when calling the contracts methods.  These are `.call()` and `.send()`.  Generally, if you are writing data to a contract, `.send()` will be required but for read methods like the ones listed above, `.call()` can be used.
 
-So, how can we use these methods?  All these methods will be available via its `.methods()` function, for example, assuming our variable `myContract` is a `web3.eth.Contract` object, we would call the totalSupply of this contract using:
+So, how can we use these methods?  All of these will be available via its `.methods()` function, for example, assuming our variable `myContract` is a `web3.eth.Contract` object, we would call the totalSupply of this contract using:
 ```
 myContract.methods.totalSupply().call()
 ```
@@ -27,6 +27,9 @@ The `.call()` method will return a javascript Promise which you can use in a cha
 myContract.methods.totalSupply().call().then(console.log)
 ```
 By using then and passing in the console log we should get 26 (at the time of writing) output in the console.  This means 26 paper cats have been minted!
+
+## Writing the hook
+So, we know that `.call()` returns a Promise of data which means we can use in a new hook that our app can use.  Lets create a new hook in `src/hooks/useFetchPaperCatsContractData`.
 
 To be continued!
 
