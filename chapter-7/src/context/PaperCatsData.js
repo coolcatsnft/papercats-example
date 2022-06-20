@@ -1,39 +1,28 @@
-import { createContext, useEffect, useState } from "react";
-import usePaperCatsContract from "../hooks/usePaperCatsContract";
+import { createContext } from "react";
+import useFetchPaperCatsContractData from "../hooks/useFetchPaperCatsContractData";
 
 export const PaperCatsDataContext = createContext();
 
 export const PaperCatsDataProvider = ({ children }) => {
-  const { contract } = usePaperCatsContract();
-  const [name, setContractName] = useState('');
-  const [totalSupply, setTotalSupply] = useState('');
-
-  useEffect(() => {
-    if (contract && !totalSupply) {
-      contract.methods.totalSupply().call().then((supply) => {
-        setTotalSupply(supply);
-      });
-    }
-    if (!contract && totalSupply) {
-      setTotalSupply('');
-    }
-  }, [contract, totalSupply]);
-
-  useEffect(() => {
-    if (contract && !name) {
-      contract.methods.name().call().then((string) => {
-        setContractName(string);
-      });
-    }
-    if (!contract && name) {
-      setContractName('');
-    }
-  }, [contract, name]);
+  const {
+    loading,
+    loaded,
+    paused,
+    price,
+    name,
+    totalSupply,
+    walletOfOwner
+  } = useFetchPaperCatsContractData();
 
   return (
     <PaperCatsDataContext.Provider value={{
+      loading,
+      loaded,
+      paused,
+      price,
       name,
-      totalSupply
+      totalSupply,
+      walletOfOwner
     }}>
       { children }
     </PaperCatsDataContext.Provider>

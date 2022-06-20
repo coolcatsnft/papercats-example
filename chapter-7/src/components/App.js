@@ -1,4 +1,4 @@
-import useFetchPaperCatsContractData from '../hooks/useFetchPaperCatsContractData';
+import usePaperCatsData from '../hooks/usePaperCatsData';
 import usePaperCatsContract from '../hooks/usePaperCatsContract';
 import { useWeb3 } from '../hooks/useWeb3';
 import Web3Button from './Web3Button';
@@ -6,7 +6,7 @@ import Web3Button from './Web3Button';
 function App() {
   const { address, balance } = useWeb3();
   const { error } = usePaperCatsContract();
-  const { loading, name, paused, price, totalSupply, loaded } = useFetchPaperCatsContractData();
+  const { loading, name, paused, price, totalSupply, loaded, walletOfOwner } = usePaperCatsData();
 
   return (
     <div className="App">
@@ -23,6 +23,7 @@ function App() {
       {loaded && paused && <p>The contract is paused.</p>}
       {loaded && <p>The mint cost is {price} ETH.</p>}
       {loaded && <p>{totalSupply} paper cats found.</p>}
+      {loaded && <p>{walletOfOwner.length} paper cats in wallet found.</p>}
     </div>
   );
 }
