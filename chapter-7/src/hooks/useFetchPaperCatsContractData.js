@@ -47,7 +47,7 @@ export function useFetchPaperCatsContractData() {
     }
   }, [contract, address, loading, name, error]);
 
-  return { loading, error, paused, price, name, totalSupply, walletOfOwner, loaded };
+  return { loading, error, paused, price, name, totalSupply, walletOfOwner, loaded, setWalletOfOwner, setTotalSupply };
 }
 
 export default useFetchPaperCatsContractData;

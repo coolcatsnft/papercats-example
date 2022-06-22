@@ -3,9 +3,9 @@ import { createContext, useEffect, useState } from "react";
 export const Web3Context = createContext();
 
 export const Web3Provider = ({ children }) => {
-  const [library, setLibrary] = useState(null);
   const [address, setAddress] = useState('');
   const [balance, setBalance] = useState('');
+  const [library, setLibrary] = useState(null);
 
   useEffect(() => {
     const handleWidgetEvent = (e) => {

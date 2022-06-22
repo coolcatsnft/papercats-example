@@ -2,6 +2,7 @@ import { createContext } from "react";
 import useFetchPaperCatsContractData from "../hooks/useFetchPaperCatsContractData";
 
 export const PaperCatsDataContext = createContext();
+export const PaperCatsSetDataContext = createContext();
 
 export const PaperCatsDataProvider = ({ children }) => {
   const {
@@ -11,7 +12,9 @@ export const PaperCatsDataProvider = ({ children }) => {
     price,
     name,
     totalSupply,
-    walletOfOwner
+    walletOfOwner,
+    setWalletOfOwner,
+    setTotalSupply
   } = useFetchPaperCatsContractData();
 
   return (
@@ -24,7 +27,12 @@ export const PaperCatsDataProvider = ({ children }) => {
       totalSupply,
       walletOfOwner
     }}>
-      { children }
+      <PaperCatsSetDataContext.Provider value={{
+        setTotalSupply,
+        setWalletOfOwner
+      }}>
+        { children }
+      </PaperCatsSetDataContext.Provider>
     </PaperCatsDataContext.Provider>
   )
 }
