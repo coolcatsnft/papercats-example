@@ -32,6 +32,14 @@ Lastly we have the [Context Api](https://reactjs.org/docs/context.html). To quot
 
 Sounds ideal!  For this project we are going to be using the Context Api, not because Redux is unsuitable but because we are not going to be manipulating state very often so a system which promotes making variables accessible to all components is exactly what we're after.
 
+Before we jump in the deepend with Context it's worth noting that the api was intended to solve issues such as _prop drilling_, however it can easily be used as a state manager.  Doing this can quickly lead to performance issues because the more complex a state you have, the more possibilities there are for uncessary rerenders.
+
+Some examples of good context uses would be:
+
+- Share the authentication state across your app
+- Share a theme across your app
+- Share a value that is used by a lot of components in a part of your app (like our wallet address!)
+
 ## Getting started with Context
 In the functional component world the Context Api has three main methods that are used.  createContext which is used for bootstrapping the context, Context.Provider which is responsible for supplying the context to components and useContext which is responsible for consuming the context data.
 
