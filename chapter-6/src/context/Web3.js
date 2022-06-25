@@ -15,6 +15,10 @@ export const Web3Provider = ({ children }) => {
     };
 
     document.addEventListener('web3-widget-event', handleWidgetEvent);
+
+    return () => {
+      document.removeEventListener('web3-widget-event', handleWidgetEvent);
+    }
   }, []);
 
   return (
