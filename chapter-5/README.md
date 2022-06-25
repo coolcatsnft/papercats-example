@@ -10,8 +10,7 @@ In order to make our data accesible to our components, we have a few options in 
 
 ### Prop Drilling
 We can use prop drilling to manually pass our variables from component to child component, for example:
-
-```
+```js
 function Component() {
   const foo = 'bar';
   return (
@@ -19,7 +18,6 @@ function Component() {
   );
 }
 ```
-
 Here we are passing our variable `foo` as a prop into our child component.  This is fine for very simple applications but will soon become unwieldy once we have more than a handful of components.  Its worth mentioning before we dismiss this method, [component composition is very important](https://reactjs.org/docs/composition-vs-inheritance.html) and should always be considered before implementing other methods.
 
 ### State Manager
@@ -44,8 +42,7 @@ Some examples of good context uses would be:
 In the functional component world the Context Api has three main methods that are used.  createContext which is used for bootstrapping the context, Context.Provider which is responsible for supplying the context to components and useContext which is responsible for consuming the context data.
 
 Let's have a look at simple example:
-
-```
+```js
 import React, { createContext, useContext } from 'react';
 const MyContext = createContext();
 
@@ -73,7 +70,7 @@ Before implementing any code, let's review what we are trying to do:
 - Provide our web3 data to any consuming components
 - Make sure our implementation reacts to any changes in web3 data and pass it onto connected components.
 Let's create a new folder and file `context/Web3.js` in our project directory.  Similar to the example above, let's create the boilerplate for our context:
-```
+```js
 import { createContext } from "react";
 
 export const Web3Context = createContext();
@@ -91,8 +88,7 @@ export default Web3Provider;
 In the example above, we have copied our context code and created a new provider component which will allow the contents of `value` to be consumed by any component that consumes it.  Currently the value is `null` but `value` can be a scalar or object so we have full flexibility over what our context can make available in our app.
 
 So lets expand our context further.  Move our event listener code from `src/App.js` into our context.
-
-```
+```js
 import { createContext, useEffect, useState } from "react";
 
 export const Web3Context = createContext();
@@ -126,7 +122,7 @@ export const Web3Provider = ({ children }) => {
 export default Web3Provider;
 ```
 As you can see we have copied the logic from `src/App.js` into our context.  The state variables (`address`, `balance` and `library`) are then passed in as the value of the context.  As a final clean up, remove the logic from the `src/App.js` code as well.  We don't want multiple components listening to the web3 event.  Your `src/App.js` should look something like this again
-```
+```js
 import Web3Widget from './Web3Widget';
 
 function App() {
@@ -143,7 +139,7 @@ function App() {
 export default App;
 ```
 Now we need to add this provider to our app so that it can be consumed.  Open up our `index.js` and import the `Web3Provider`:
-```
+```js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/App';
@@ -161,7 +157,7 @@ root.render(
 You can see we are wrapping our `App` component with our `Web3Provider`.  As Providers make their variables available to any children, this means any of its child components (including `<App />`) can make use of its value.
 
 We now need to make use of the `useContext` hook to consume our new `Web3Provider`!  It's good practice to make a custom hook for this so that we avoid writing the same boilerplate more than once.  So create a new folder and file, `hooks/useWeb3.js` and paste in the following code:
-```
+```js
 import { useContext } from "react";
 import { Web3Context } from "../context/Web3";
 
@@ -178,8 +174,8 @@ export default useWeb3;
 ```
 Here we are creating a custom hook that implements useContext to connect to the Web3Context api.  Any component which uses this hook will now have access to the address, balance and library variables!  As an aside, we are also checking to see if the context exists and throwing an error if not.  It doesn’t necessarily apply in this example, but it's good practice to include this check for any custom hook that uses the Context Api.
 
-Finally! Let's integrate this new hook into our App.js.
-```
+Finally! Let's integrate this new hook into our `src/components/App.js` component.
+```js
 import { useWeb3 } from '../hooks/useWeb3';
 import Web3Widget from './Web3Widget';
 
