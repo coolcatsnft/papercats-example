@@ -190,6 +190,60 @@ export const PaperCatsDataProvider = ({ children }) => {
 
 export default PaperCatsDataContext;
 ```
+Let's now add our context to our `index.js` file like we did for the `src/context/Web3` context:
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './components/App';
+import { PaperCatsContractProvider } from './context/PaperCatsContract';
+import { PaperCatsDataProvider } from './context/PaperCatsData';
+import { Web3Provider } from './context/Web3';
 
-To be continued!
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Web3Provider>
+      <PaperCatsContractProvider>
+        <PaperCatsDataProvider>
+          <App />
+        </PaperCatsDataProvider>
+      </PaperCatsContractProvider>
+    </Web3Provider>
+  </React.StrictMode>
+);
+```
+And also create a new hook, `src/hooks/usePaperCatsData.js` to use our context:
+```js
+import { useContext } from "react";
+import { PaperCatsDataContext } from "../context/PaperCatsData";
 
+export function usePaperCatsData() {
+  const context = useContext(PaperCatsDataContext)
+  if (context === undefined) {
+    throw new Error('usePaperCatsData must be used within a PaperCatsDataContext')
+  }
+
+  return context;
+}
+
+export default usePaperCatsData;
+```
+We can now replace our `useFetchPaperCatsContractData` hook with our context hook in our `src/components/App.js` component:
+```js
+import useWeb3 from '../hooks/useWeb3';
+import usePaperCatsContract from '../hooks/usePaperCatsContract';
+import usePaperCatsData from '../hooks/usePaperCatsData';
+import Web3Button from './Web3Button';
+
+function App() {
+  const { address, balance } = useWeb3();
+  const { error } = usePaperCatsContract();
+  const { loading, name, paused, price, totalSupply, loaded, walletOfOwner } = usePaperCatsData();
+```
+As all of the state variables are the same, it should just be a name replacement from `useFetchPaperCatsContractData` to `usePaperCatsData` and the rest of the file will stay the same.  Reloading your app, you should see the result is the same but now we have our contract data available to any subscribing component!
+
+## Summary
+In this chapter, we have covered how to interact with a `web3.eth.Contract` instance and using its methods, exposed its data into a hook and context.  We now have the tools to start displaying Paper Cat data in our app and in an upcoming chapter, being able to mint our own Paper Cat as well.  [Click here](https://codesandbox.io/s/papercats-chapter-7-reading-the-papercats-contract-n69jsf) for the full code example.
+
+## Whats next
+In the [next chapter](../chapter-8), we'll look at using the `tokenUri` method in our contract object to get our Paper Cats repository location and use that to fetch its metadata.  See you there!
