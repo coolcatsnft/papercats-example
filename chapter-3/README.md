@@ -3,7 +3,7 @@
 Now that we have our react app initialised we are in a position to start customising it!  
 
 ## TLDR
-In this chapter we are going to be modifying some of the default `create-react-app` components.  If you already know react, you can skip this chapter and move on to the [next](../chapter-4/).
+In this chapter we are going to be modifying some of the default `create-react-app` components.  If you already know react, you can skip this chapter and move on to the [next](../chapter-4/).  If you just want to see a working example, [this is what we're going to produce](https://codesandbox.io/s/chapter-3-vanilla-react-js-6pt5mo).
 
 ## Components?
 Your brand new react project folder should have the following contents:
