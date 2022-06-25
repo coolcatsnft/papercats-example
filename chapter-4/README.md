@@ -12,7 +12,7 @@ We have created a [javascript widget](https://github.com/coolcatsnft/web3-widget
 
 The answer is using two of React’s built-in tools, the `createElement` method and useEffect hook.  Looking at the project README.md, there is an [example react component](https://github.com/coolcatsnft/web3-widget#embedding-in-react) documented, so lets copy that into a new file and call it Web3Widget.js.  
 
-```
+```js
 import { createElement, useEffect } from "react";
 
 export function Web3Button() {
@@ -80,25 +80,24 @@ The last line of the component is where the [createElement](https://reactjs.org/
 ## Exporting our Component
 Finally, in order to use our component, we need to `export` it so that we can `import` it within other files.  On the last line of the `Web3Button` file we write the following code, `export default Web3Button;`.  You don't necessarily need to use a `default` keyword, however this is sometimes useful as it allows developers to use a different variable name when importing it into a new file.  For example:
 
-```
+```js
 import Web3Button from './Web3Button';
 import AnotherWeb3Button from './Web3Button';
 ```
 In this instance, `Web3Button` and `AnotherWeb3Button` will be the same component, however accessing the named component will produce a compiler error:
-
-```
+```js
 import { Web3Button } from './Web3Button';
 import { AnotherWeb3Button } from './Web3Button';
 ```
 ## Importing the new component
 Ok so now we have been through the code, lets try to add it to our App.js!  As demonstrated about, we need to import our component before being able to use it:
-```src/App.js
+```js
 import Web3Button from './Web3Button';
 
 function App() {
 ```
 Using this will import our default export from the specified file.  We now have our component available, so let's add it into our source:
-```
+```js
 import Web3Widget from './Web3Widget';
 
 function App() {
@@ -125,8 +124,7 @@ Great! Having a functioning widget is a fantastic start, however, connecting to 
 
 ## Listening for the widget event
 The [documentation for the widget](https://github.com/coolcatsnft/web3-widget/blob/main/README.md#listening-for-events) says that we should listen for the `web3-widget-event` event.  Back in our App.js component, let's create another single use useEffect function to subscribe to our event:
-
-```
+```js
 import { useEffect } from 'react';
 import Web3Widget from './Web3Widget';
 
@@ -155,7 +153,7 @@ Again we are using useEffect to perform an action on rendering our App.  This ti
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/92721591/173508300-82c8a915-1af3-4621-bedc-3dd1026ba687.png">
 
 If you’re wondering why there are two console logs in this image, that’s a good spot.  By default, create-react-app wraps our App component in a [Strict Mode](https://reactjs.org/docs/strict-mode.html) tag.  Strict mode causes a double render of any components in its scope in order to detect any problems with the code and report them.  In this instance, it hasn’t reported any errors however has uncovered a potential flaw that our event listener method is being attached twice to the event.  How do we overcome this?  The answer is unsubscribing from our event when the component is unmounted.
-```
+```js
 import { useEffect } from 'react';
 import Web3Widget from './Web3Widget';
 
@@ -196,14 +194,11 @@ Now we are logging our event data, we now need to do something with it!  We know
 
 ## useState hook
 When using `useState`, an array is returned with the first entry being the variable and the second being the setter that will mutate its value.  For example:
-
-```
+```js
 const [value, setValue] = useState(0);
 ```
-
 The square brackets notation is a bit of javascript syntax called _array destructuring_. This isn’t strictly necessary as we could do something like this:
-
-```
+```js
 const valueState = useState(0);
 const value = valueState[0];
 const setValue = valueState[1];
@@ -211,8 +206,7 @@ const setValue = valueState[1];
 As you can see, _array destructuring_ makes the code much more readable and considerably shorter once you understand what it’s doing.
 
 Now that we have our state variable and setter, if we call `setValue(1)`, value will now be 1 and so on.  What’s interesting is that we can also combine a `useEffect` with a dependency of `value` to react to value being changed!  
-
-```
+```js
 const [value, setValue] = useState(0);
 useEffect(console.log, [value]);
 ```
@@ -222,8 +216,7 @@ If all of this is a bit confusing, I’d recommend working through the [official
 
 ## Adding state
 Lets define out three state variables and start using their setter methods in our `useEffect` hook which is listening for the `web3-widget-event`.
-
-```
+```js
 import { useEffect, useState } from 'react';
 import Web3Widget from './Web3Widget';
 
@@ -246,12 +239,10 @@ function App() {
     }
   }, []);
 ```
-
 A lot of code has just been added! Just underneath our App() declaration we have created three variables using useState.  In our handler, we are now mapping the address, balance and library properties from our event detail to our state values.  We are using [operator chaining](https://www.joshwcomeau.com/operator-lookup?match=optional-chaining) on the event object thats returned to double check the existence of these properties in the event and if missing, provide the default value instead.
 
 Now that we have our address and balance in the state of the component, lets try displaying them on screen:
-
-```
+```js
   return (
     <div className="App">
       <h1>My Paper Cats App!</h1>
@@ -263,8 +254,7 @@ Now that we have our address and balance in the state of the component, lets try
     </div>
   );
 ```
-
-We’ve added our address and balance variables between square brackets and have done a quick logical test which will then show the `<p>` component if either of these variables are truthy.
+We've added our address and balance variables between square brackets and have done a quick logical test which will then show the `<p>` component if either of these variables are truthy.
 
 So refreshing our screen, we should get something like this:
 
