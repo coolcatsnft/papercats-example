@@ -242,6 +242,50 @@ function App() {
 ```
 As all of the state variables are the same, it should just be a name replacement from `useFetchPaperCatsContractData` to `usePaperCatsData` and the rest of the file will stay the same.  Reloading your app, you should see the result is the same but now we have our contract data available to any subscribing component!
 
+## Future proofing
+Up to this point, we have only been focused on reading data.  In future chapters when we discuss minting, we will also need to update our local state variables `totalSupply` and `walletOfOwner` and to do that we will need to expose the setters `setTotalSupply` and `setWalletOfOwner`.  We could add them to the hook and context we have just created however there is a small problem with this.  If calling one of these setters in a subscribed component, we could potentially cause a double render of our App.  For simple examples, this probably doesn't matter however as your application grows the number of times your data renders starts to get very important.  To get around this we must move our setters into a new context and subscribe to that if we need to update the data.  For more on this topic, [these articles](https://devtrium.com/posts/how-use-react-context-pro#separate-state-and-state-setters-if-necessary) cover the topic in more detail and are an [interesting read](https://kentcdodds.com/blog/how-to-optimize-your-context-value).
+
+To get started, we need to first export our setters in the `src/hooks/useFetchPaperCatsContractData.js` hook like so:
+```js
+  return { loading, error, paused, price, name, totalSupply, walletOfOwner, loaded, setWalletOfOwner, setTotalSupply };
+}
+
+export default useFetchPaperCatsContractData;
+```
+We can then create a new context in `src/context/PaperCatsData.js` and use these setters as its value:
+```js
+...
+export const PaperCatsSetDataContext = createContext();
+
+export const PaperCatsDataProvider = ({ children }) => {
+  const {
+    ... // Existing values
+    setWalletOfOwner,
+    setTotalSupply
+  } = useFetchPaperCatsContractData();
+
+  return (
+    <PaperCatsDataContext.Provider value={{
+      loading,
+      loaded,
+      paused,
+      price,
+      name,
+      totalSupply,
+      walletOfOwner
+    }}>
+      <PaperCatsSetDataContext.Provider value={{
+        setTotalSupply,
+        setWalletOfOwner
+      }}>
+        { children }
+      </PaperCatsSetDataContext.Provider>
+    </PaperCatsDataContext.Provider>
+  )
+}
+```
+By moving our setters into a child context we can avoid the duplicate renders as we can choose which components subscribe to values, setters or both!  This approach is simple but can help our apps performance as it expands and worth covering now rather than later.
+
 ## Summary
 In this chapter, we have covered how to interact with a `web3.eth.Contract` instance and using its methods, exposed its data into a hook and context.  We now have the tools to start displaying Paper Cat data in our app and in an upcoming chapter, being able to mint our own Paper Cat as well.  [Click here](https://codesandbox.io/s/papercats-chapter-7-reading-the-papercats-contract-n69jsf) for the full code example.
 
