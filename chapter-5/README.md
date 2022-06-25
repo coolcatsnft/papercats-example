@@ -1,7 +1,22 @@
 # Its All About Context
-
 We now have a working wallet connection and are successfully storing our wallet address, balance and library in our apps state. Looking forward we are going to need these variables accessible by the whole of our app which means we need to implement a mechanism which is capable of doing this.
 
+### Housekeeping
+Before we start this chapter, I will point out that the code example has changed slightly from [chapter 4](../chapter-4).  All components will be moved into a `src/components` folder and any new hooks or contexts that we add will be created in their respective folders as well.  Your folder structure should look something like this now:
+```
+public
+ -> index.html
+ ...
+src
+-> components
+  -> App.js
+  -> Web3Button.js
+-> hooks
+  -> Web3.js
+-> context
+package.json
+package-lock.json
+```
 ### TLDR
 If you want to look at the example we're going to create first, here is our [finished site and code](https://codesandbox.io/s/papercats-chapter-5-all-about-context-khx4rc).
 
@@ -87,7 +102,7 @@ export default Web3Provider;
 ```
 In the example above, we have copied our context code and created a new provider component which will allow the contents of `value` to be consumed by any component that consumes it.  Currently the value is `null` but `value` can be a scalar or object so we have full flexibility over what our context can make available in our app.
 
-So lets expand our context further.  Move our event listener code from `src/App.js` into our context.
+So lets expand our context further.  Move our event listener code from `src/components/App.js` into our context.
 ```js
 import { createContext, useEffect, useState } from "react";
 
@@ -121,7 +136,7 @@ export const Web3Provider = ({ children }) => {
 
 export default Web3Provider;
 ```
-As you can see we have copied the logic from `src/App.js` into our context.  The state variables (`address`, `balance` and `library`) are then passed in as the value of the context.  As a final clean up, remove the logic from the `src/App.js` code as well.  We don't want multiple components listening to the web3 event.  Your `src/App.js` should look something like this again
+As you can see we have copied the logic from `src/App.js` into our context.  The state variables (`address`, `balance` and `library`) are then passed in as the value of the context.  As a final clean up, remove the logic from the `src/components/App.js` code as well.  We don't want multiple components listening to the web3 event.  Your `src/components/App.js` should look something like this again
 ```js
 import Web3Widget from './Web3Widget';
 
@@ -156,7 +171,7 @@ root.render(
 ```
 You can see we are wrapping our `App` component with our `Web3Provider`.  As Providers make their variables available to any children, this means any of its child components (including `<App />`) can make use of its value.
 
-We now need to make use of the `useContext` hook to consume our new `Web3Provider`!  It's good practice to make a custom hook for this so that we avoid writing the same boilerplate more than once.  So create a new folder and file, `hooks/useWeb3.js` and paste in the following code:
+We now need to make use of the `useContext` hook to consume our new `Web3Provider`!  It's good practice to make a custom hook for this so that we avoid writing the same boilerplate more than once.  So create a new folder and file, `src/hooks/useWeb3.js` and paste in the following code:
 ```js
 import { useContext } from "react";
 import { Web3Context } from "../context/Web3";
