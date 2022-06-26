@@ -24,7 +24,7 @@ export const useFetchPaperCat = (id) => {
   const { contract } = usePaperCatsContract();
   const [loading, setLoading] = useState(false);
   const [tokenUri, setTokenUri] = useState(null);
-  const [paperCat, setPaperCat] = useLocalStorage(`papercat-${PAPER_CATS_CONTRACT}-${id}`, null);
+  const [paperCat, setPaperCat] = useLocalStorage(`papercat-${PAPER_CATS_CONTRACT}-${id}`, null, 3600);
   const [error, setError] = useState(null);
   
   useEffect(() => {
