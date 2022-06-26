@@ -59,23 +59,30 @@ export function useFetchContract(contractAddress) {
       });
     };
 
-    if (library && !contract && !loadingContract && !contractError) {
+    if (library && !abi && !loadingContract && !contractError) {
       setLoadingContract(true);
       fetchAbi().then((json) => {
         setLoadingContract(false);
         setAbi(json);
-        setContract(new library.eth.Contract(json, contractAddress));
       }).catch((err) => {
         setContractError(err.toString());
         setLoadingContract(false);
       });
     }
+  }, [contractAddress, library, contract, loadingContract, contractError, abi, setAbi]);
 
+  useEffect(() => {
+    if (library && !contract && abi) {
+      setContract(new library.eth.Contract(abi, contractAddress));
+    }
+  }, [contractAddress, library, contract, abi]);
+
+  useEffect(() => {
     if (!library && contract) {
       setContract(undefined);
       setLoadingContract(false);
     }
-  }, [contractAddress, library, contract, loadingContract, contractError, abi, setAbi]);
+  }, [library, contract]);
 
   return { loadingContract, contractError, contract };
 }
