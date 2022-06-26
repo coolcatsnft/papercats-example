@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useLocalStorage from "./useLocalStorage";
 import useWeb3 from "./useWeb3";
 
 export const networkName = (id) => {
@@ -31,12 +32,17 @@ export const getApi = (id) => {
 
 export function useFetchContract(contractAddress) {
   const { library } = useWeb3();
+  const [abi, setAbi] = useLocalStorage(`${contractAddress}-abi`);
   const [contract, setContract] = useState();
   const [loadingContract, setLoadingContract] = useState(false);
   const [contractError, setContractError] = useState();
 
   useEffect(() => {
     const fetchAbi = () => {
+      if (abi) {
+        return Promise.resolve(abi);
+      }
+
       return fetch(
         `//${getApi(library.currentProvider.networkVersion)}.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}&format=raw`
       ).then((res) => {
@@ -57,6 +63,7 @@ export function useFetchContract(contractAddress) {
       setLoadingContract(true);
       fetchAbi().then((json) => {
         setLoadingContract(false);
+        setAbi(json);
         setContract(new library.eth.Contract(json, contractAddress));
       }).catch((err) => {
         setContractError(err.toString());
@@ -68,7 +75,7 @@ export function useFetchContract(contractAddress) {
       setContract(undefined);
       setLoadingContract(false);
     }
-  }, [contractAddress, library, contract, loadingContract, contractError]);
+  }, [contractAddress, library, contract, loadingContract, contractError, abi, setAbi]);
 
   return { loadingContract, contractError, contract };
 }

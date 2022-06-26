@@ -1,7 +1,6 @@
 import { createContext } from "react";
+import { PAPER_CATS_CONTRACT } from "..";
 import useFetchContract from "../hooks/useFetchContract";
-
-const PAPER_CATS_CONTRACT = '0xB574BC3b58fED191846D678fB1B0127d35832e9A';
 
 export const PaperCatsContractContext = createContext();
 

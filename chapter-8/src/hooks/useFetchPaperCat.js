@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { PAPER_CATS_CONTRACT } from "..";
+import useLocalStorage from "./useLocalStorage";
 import usePaperCatsContract from "./usePaperCatsContract";
 
 const requests = new Map();
-const checkPromise = (key, prom, params) => {
+const PromiseCache = (key, prom, params) => {
   let p;
   if (requests.get(key)) {
     p = requests.get(key);
@@ -22,13 +24,13 @@ export const useFetchPaperCat = (id) => {
   const { contract } = usePaperCatsContract();
   const [loading, setLoading] = useState(false);
   const [tokenUri, setTokenUri] = useState(null);
-  const [paperCat, setPaperCat] = useState(null);
+  const [paperCat, setPaperCat] = useLocalStorage(`papercat-${PAPER_CATS_CONTRACT}-${id}`, null);
   const [error, setError] = useState(null);
   
   useEffect(() => {
-    if (contract && !tokenUri && !loading && !error) {
+    if (contract && !paperCat && !tokenUri && !loading && !error) {
       setLoading(true);
-      checkPromise(
+      PromiseCache(
         `tokenuri-${id}`,
         contract.methods.tokenURI(id).call
       ).then((tokenURI) => {
@@ -37,11 +39,11 @@ export const useFetchPaperCat = (id) => {
         setError(err);
       });
     }
-  }, [id, contract, tokenUri, loading, error])
+  }, [id, contract, paperCat, tokenUri, loading, error])
   
   useEffect(() => {
     if (loading && !paperCat && tokenUri && !error) {
-      checkPromise(
+      PromiseCache(
         `papercat-${id}`,
         fetch,
         [tokenUri, { mode: "cors" }]
