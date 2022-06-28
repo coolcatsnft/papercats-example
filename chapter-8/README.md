@@ -83,7 +83,8 @@ In the example above, along with importing our contract, we've setup the followi
 - A state variable to handle an `error` state.
 - We also export our state variables for components to use.
 
-Next step, let's add a `useEffect` hook to handle our tokenUri loading:
+### Fetching the tokenUri
+Next, let's add a `useEffect` hook to handle our tokenUri loading:
 ```js
 // imports removed
 export const useFetchPaperCat = (id) => {
@@ -108,7 +109,10 @@ export default useFetchPaperCat;
 ```
 In the updated example we've added logic to test if the `contract` exists but the `tokenUri` and the hook isn't in an `error` state, proceed and call tokenUri contract method.  Assuming it resolves we save it to state and localStorage.
 
-This should be all we need so far, so let's create our Papercat component and use our hook!  Create a new file `src/components/PaperCat.js` and add the following boiler plate:
+This should be all we need so far, so let's create our Papercat component and use our hook!  
+
+### Creating the PaperCat component
+Create a new file `src/components/PaperCat.js` and add the following boiler plate:
 ```js
 import { useFetchPaperCat } from "../hooks/useFetchPaperCat";
 
@@ -142,6 +146,83 @@ We now have the start of our hook and PaperCat component.  Let's try adding it t
     </>
   )}
 ```
-We are making one assumption that all the ids are in numerical order which for this example is Ok. Assuming the code in your repo is correct, you shoul,d see a list of `tokenUri`'s when you next refresh your app!  [Here is my version](https://codesandbox.io/s/papercats-chapter-8-tokenuri-s29s26) if you want to compare.
+One assumption that we are making here, is that all of the token ids are in numerical order.  For this example, this is OK however, you may want to add some error checking if you intend your app to appear in a production environment. 
 
-To be continued!
+Assuming the code in your repo is correct, you should see a list of `tokenUri`'s when you next refresh your app!  [Here is my version](https://codesandbox.io/s/papercats-chapter-8-tokenuri-s29s26) if you want to compare.  If you open up one of these urls in a browser, you'll see the structure of the papercats metadata!
+
+![image](https://user-images.githubusercontent.com/92721591/176258649-8d36bf7d-2bc8-4e51-816e-7addf6d2ad2d.png)
+
+You can see that as of time of writing, papercats have a name, description, image and two attributes.
+
+### Fetching the PaperCat metadata
+We now have all the tools we need to fetch our meta data and have seen what our data looks like, so lets get it into our app.  Create another `localStorage` state variable like the `tokenUri` but name it `paperCat` and `setPaperCat`:
+```js
+  const [paperCat, setPaperCat] = useLocalStorage(
+    `papercat-${PAPER_CATS_CONTRACT}-${id}-metadata`
+  );
+```
+This will be the state that holds our metadata.  Like the `tokenUri` we are giving the `localStorage` value a unique name.  Next, create a new `useEffect` hook in the `src/hooks/useFetchPaperCatData.js` file:
+```js
+  useEffect(() => {
+    if (contract && tokenUri && !paperCat && !error) {
+      fetch(
+        tokenUri,
+        { mode: "cors" }
+      ).then((response) => {
+        if (response.status !== 200) {
+          throw new Error("Invalid response from metadata server");
+        }
+
+        response.json().then((data) => {
+          setPaperCat({ ...{ id: String(id) }, ...data });
+        });
+      }).catch((err) => {
+        setError(err);
+      });
+    }
+  }, [id, contract, tokenUri, paperCat, setPaperCat, error]);
+```
+Here we are reacting to the tokenUri being set and using `fetch` (like our ABI file in a previous chapter) to get the metadata json and save it to localStorage.  Lastly, add `paperCat` to our return statement.
+```js
+  return { tokenUri, paperCat, error }
+```
+Refreshing our app should see our papercat metadata being fetched in the console:
+
+![image](https://user-images.githubusercontent.com/92721591/176269126-97bd0add-7ed8-4fb7-8454-a5ec6e28a4b1.png)
+
+Almost there! We just have to add our new `paperCat` data into our component:
+```js
+export function PaperCat({ id }) {
+  const { error, tokenUri, paperCat } = useFetchPaperCat(id);
+  const loading = !error && !tokenUri;
+
+  return (
+    <>
+      {loading && <>Loading Paper Cat...</>}
+      {paperCat && (
+        <>
+          <p>{paperCat.name}</p>
+          <ul>
+            {paperCat.attributes.map((attr, i) => (
+              <li key={i}>
+                {attr.trait_type}: {attr.value}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
+  );
+}
+```
+Instead of outputting our `tokenUri`, we're testing for existence of our `paperCat` state variable, outputing the name of the cat and looping through our attributes to output the traits and values.  You should see something like this:
+
+![image](https://user-images.githubusercontent.com/92721591/176270893-33b91c01-ffaf-4e7d-80b6-ffd8431767a5.png)
+
+If you've following this far, well done! You've succesfully read from a web3 contact and outputted its data! :+1::partying_face:
+
+## Summary
+In this chapter, we've covered caching our data locally, using the `tokenUri` method on the Papercats contract to fetch the metadata uri and finally fetch the metadata itself.  We're also outputting our metadata in a new component.  Time to have a break after that!
+
+## Whats next?
+In the [next chapter](../chapter-9), we'll look at minting our very own papercat. See you there!
