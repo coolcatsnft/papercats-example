@@ -289,5 +289,5 @@ By moving our setters into a child context we can avoid the duplicate renders as
 ## Summary
 In this chapter, we have covered how to interact with a `web3.eth.Contract` instance and using its methods, exposed its data into a hook and context.  We now have the tools to start displaying Paper Cat data in our app and in an upcoming chapter, being able to mint our own Paper Cat as well.  [Click here](https://codesandbox.io/s/papercats-chapter-7-reading-the-papercats-contract-n69jsf) for the full code example.
 
-## Whats next
+## Whats next?
 In the [next chapter](../chapter-8), we'll look at using the `tokenUri` method in our contract object to get our Paper Cats repository location and use that to fetch its metadata.  See you there!
