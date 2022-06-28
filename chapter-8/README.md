@@ -69,15 +69,79 @@ import usePaperCatsContract from "./usePaperCatsContract";
 
 export const useFetchPaperCat = (id) => {
   const { contract } = usePaperCatsContract();
-  const [loading, setLoading] = useState(false);
   const [tokenUri, setTokenUri] = useLocalStorage(`papercat-${PAPER_CATS_CONTRACT}-${id}-tokenUri`);
   const [error, setError] = useState(null);
   
-  return { loading, error };
+  return { tokenUri, error };
 }
 
 export default useFetchPaperCat;
 ```
-In the example above, along with importing our contract, we've setup some variables to handle loading, error and success state.  We're also using our `localStorage` hook with a unique key (based on our contract address and token id) to cache the tokenUri once its set.
+In the example above, along with importing our contract, we've setup the following:
+- We have a `id` parameter.
+- We are using our `localStorage` hook with a unique key (based on our contract address and token id) to provide (and cache) the `tokenUri`.  
+- A state variable to handle an `error` state.
+- We also export our state variables for components to use.
+
+Next step, let's add a `useEffect` hook to handle our tokenUri loading:
+```js
+// imports removed
+export const useFetchPaperCat = (id) => {
+  const { contract } = usePaperCatsContract();
+  const [tokenUri, setTokenUri] = useLocalStorage(`papercat-${PAPER_CATS_CONTRACT}-${id}-tokenUri`);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    if (contract && !tokenUri && !error) {
+      contract.methods.tokenURI(id).call().then((tokenURI) => {
+        setTokenUri(tokenURI);
+      }).catch((err) => {
+        setError(err);
+      });
+    }
+  }, [id, contract, tokenUri, setTokenUri, error]);
+  
+  return { error, tokenUri };
+}
+
+export default useFetchPaperCat;
+```
+In the updated example we've added logic to test if the `contract` exists but the `tokenUri` and the hook isn't in an `error` state, proceed and call tokenUri contract method.  Assuming it resolves we save it to state and localStorage.
+
+This should be all we need so far, so let's create our Papercat component and use our hook!  Create a new file `src/components/PaperCat.js` and add the following boiler plate:
+```js
+import { useFetchPaperCat } from "../hooks/useFetchPaperCat";
+
+export function PaperCat({ id }) {
+  const { error, tokenUri } = useFetchPaperCat(id);
+  const loading = !error && !tokenUri;
+
+  return (
+    <>
+      { loading && <>Loading Paper Cat...</> }
+      { tokenUri && (
+        <p>{tokenUri}</p>
+      ) }
+    </>
+  )
+}
+
+export default PaperCat;
+```
+The new component accepts an `id` parameter and uses our new `useFetchPaperCat` hook to import our state variables and outputs either a loading message or the tokenUri depending on if we deem it as loading.  We can assuming the component is loading if `error` and `tokenUri` are falsy.  
+
+We now have the start of our hook and PaperCat component.  Let's try adding it to our `src/components/App.js` file to see if we can output our `tokenUri` state.  With a little javascript magic we can iterate through all of the current token ids in the contract with just a few lines of code:
+```js
+  {loaded && (
+    <>
+      {Array.from(Array(Number(totalSupply)).keys()).map((id) => {
+        return (
+          <PaperCat id={id} key={id} />
+        )
+      })}
+    </>
+  )}
+```
+We are making one assumption that all the ids are in numerical order which for this example is Ok. Assuming the code in your repo is correct, you shoul,d see a list of `tokenUri`'s when you next refresh your app!  [Here is my version](https://codesandbox.io/s/papercats-chapter-8-tokenuri-s29s26) if you want to compare.
 
 To be continued!
