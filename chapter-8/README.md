@@ -2,7 +2,7 @@
 In the [last chapter](../chapter-7) we looked at reading from the Papercats contract using the methods provided by `web3.eth.Contract.methods`.  We found that these all return native `Promise` objects that we can either use with `.then` (or `await`) to return the data.  In this chapter we will explore another contract method `tokenUri` which will return the metadata endpoint for a given token id.
 
 ## TLDR
-Here is our [code repo](https://codesandbox.io/s/papercats-chapter-8-k5dphi) if you want to just look at what we're going to produce in this chapter.
+Here is our [code repo](https://codesandbox.io/s/papercats-chapter-8-fetching-papercat-data-x61glf) if you want to just look at what we're going to produce in this chapter.
 
 ## Optimising query data
 Before we look adding more data requests to our app, we should first consider optimising our current query data so its cached locally.  One thing we do know about our contract is that it's not going to change and if we are fetching the metadata for our Papercats we can safely store this in `localStorage` and read from that on subsequent loads safe in the knowledge that this data will be the same as on the metadata server.
