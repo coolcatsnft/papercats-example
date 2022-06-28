@@ -56,4 +56,28 @@ Lastly, we can now add a new hook create the contract object when the `abi` vari
 ```
 The combination of these edits, should lead you to something like [this example](https://codesandbox.io/s/papercats-chapter-8-caching-contract-snd3cr?file=/src/hooks/useFetchContract.js). If you reload your app you will see the abi file being fetched like normal.  On the next reload however you will see that the fetch request is gone and still your app functions! At last some basic caching!  That's all we need from our `localStorage` hook for now, but we will use it again when we start fetching from the metadata server.
 
+## Fetching a Papercat
+Now that we have our cache layer implemented, we can finally focus on fetching and displaying our metadata.  For a [ERC721](https://docs.openzeppelin.com/contracts/4.x/erc721) token such as the papercat, the metadata location can be retreived using the `web3.eth.Contract.methods.tokenUri` method.  This will return a uri which can then be in turn fetched to get our tokens data.  Given that we already have  used a contract method and `fetch` in our hooks, we'll combine both of these techinques to achieve our goal.
+
+### Creating the PaperCat hook
+To start, create a new hook `src/hooks/useFetchPaperCat.js` and import our contract hook, we'll need this to do our first objective of getting the tokenUri:
+```js
+import { useEffect, useState } from "react";
+import { PAPER_CATS_CONTRACT } from "..";
+import useLocalStorage from "./useLocalStorage";
+import usePaperCatsContract from "./usePaperCatsContract";
+
+export const useFetchPaperCat = (id) => {
+  const { contract } = usePaperCatsContract();
+  const [loading, setLoading] = useState(false);
+  const [tokenUri, setTokenUri] = useLocalStorage(`papercat-${PAPER_CATS_CONTRACT}-${id}-tokenUri`);
+  const [error, setError] = useState(null);
+  
+  return { loading, error };
+}
+
+export default useFetchPaperCat;
+```
+In the example above, along with importing our contract, we've setup some variables to handle loading, error and success state.  We're also using our `localStorage` hook with a unique key (based on our contract address and token id) to cache the tokenUri once its set.
+
 To be continued!
