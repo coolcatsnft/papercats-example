@@ -1,5 +1,5 @@
 # Displaying Papercat Metadata
-In the [last chapter](../chapter-7) we looked at reading from the Papercats contract using the methods provided by `web3.eth.Contract.methods`.  We found that these all return native `Promise` objects that we can either use with `.then` (or `await`) to return the data.  In this chapter we will explore another contract method `tokenUri` which will return the metadata endpoint for a given token id.
+In the [last chapter](../chapter-07) we looked at reading from the Papercats contract using the methods provided by `web3.eth.Contract.methods`.  We found that these all return native `Promise` objects that we can either use with `.then` (or `await`) to return the data.  In this chapter we will explore another contract method `tokenUri` which will return the metadata endpoint for a given token id.
 
 ## TLDR
 Here is our [code repo](https://codesandbox.io/s/papercats-chapter-8-fetching-papercat-data-x61glf) if you want to just look at what we're going to produce in this chapter.
@@ -8,7 +8,9 @@ Here is our [code repo](https://codesandbox.io/s/papercats-chapter-8-fetching-pa
 Before we look adding more data requests to our app, we should first consider optimising our current query data so its cached locally.  One thing we do know about our contract is that it's not going to change and if we are fetching the metadata for our Papercats we can safely store this in `localStorage` and read from that on subsequent loads safe in the knowledge that this data will be the same as on the metadata server.
 
 ### useLocalStorage hook
-In order to use `localStorage` we will create another hook to help use read and write data. In true [Blue Peter](https://www.youtube.com/watch?v=CTnKEqEvqNM) fashion, [here is a hook](https://gist.github.com/Alex-CoolCats/4ae77b5d4d5600970d0f8c75e92a7a18) I made earlier!  This hook will mimic `useState` but will also store and read the data from `localStorage` which means we can avoid future data fetches with some small modifications to our `useEffect` conditions.  To use this hook, copy this gist and paste the contents into a new file `src/hooks/useLocalStorage.js`.
+In order to use `localStorage` we will create another hook to help use read and write data. In true [Blue Peter](https://www.youtube.com/watch?v=CTnKEqEvqNM) fashion, [here is a hook](https://gist.github.com/Alex-CoolCats/4ae77b5d4d5600970d0f8c75e92a7a18) I made earlier!  
+
+This hook will mimic `useState` but will also store and read the data from `localStorage` which means we can avoid future data fetches with some small modifications to our `useEffect` conditions.  To use this hook, copy this gist and paste the contents into a new file `src/hooks/useLocalStorage.js`.
 
 After creating the new hook, we want to first address the issue that our app currently fetches the contract ABI file on every refresh so lets try using our new `localStorage` hook in `src/hooks/useFetchContract.js` to negate this.  To start, import the `localStorage` hook and then create a new state variable and setter, `abi` and `setAbi` like in the example below:
 ```js
@@ -225,4 +227,4 @@ If you've following this far, well done! You've succesfully read from a web3 con
 In this chapter, we've covered caching our data locally, using the `tokenUri` method on the Papercats contract to fetch the metadata uri and finally fetch the metadata itself.  We're also outputting our metadata in a new component.  Time to have a break after that!
 
 ## Whats next?
-In the [next chapter](../chapter-9), we'll look at minting our very own papercat. See you there!
+In the [next chapter](../chapter-09), we'll look at minting our very own papercat. See you there!

@@ -156,4 +156,4 @@ Perfect! We have that error handled.  In a future chapter we'll look at making s
 In this chapter we've covered what an ABI file is, how to fetch a (verified) contracts ABI file from the etherscan api and how to instantiate a web3 contract object from the web3.eth library.
 
 ## Whats next?
-In the [next chapter](../chapter-7) we will look at exporing and reading data from our contract. See you there!
+In the [next chapter](../chapter-07) we will look at exporing and reading data from our contract. See you there!

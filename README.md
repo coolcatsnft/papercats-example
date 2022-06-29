@@ -28,19 +28,21 @@ In this series of tutorials, we will be taking a user through all the necessary 
 This repository will guide you through the following:
 
 - Setup an environment suitable for developing a [React](https://reactjs.org) based application.
-  - [View Tutorial](chapter-1)
+  - [View Tutorial](chapter-01)
 - Bootstrap a new site using the [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html) toolchain.
-  - [View Tutorial](chapter-2)
+  - [View Tutorial](chapter-02)
 - Customising your Project
-  - [View Tutorial](chapter-3)
+  - [View Tutorial](chapter-03)
 - Integrating a [library](https://github.com/coolcatsnft/web3-widget) to handle connecting to a web3 wallet.
-  - [View Tutorial](chapter-4)
+  - [View Tutorial](chapter-04)
 - Adding [Context](https://reactjs.org/docs/context.html) to our app to help make our web3 variables available to any subscribing components.
-  - [View Tutorial](chapter-5)
+  - [View Tutorial](chapter-05)
 - Connecting to the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
-  - [View Tutorial](chapter-6)
+  - [View Tutorial](chapter-06)
 - Reading data from the [Paper Cats contract](https://testnets.opensea.io/collection/paper-cats-v1-1-beta).
-  - [View Tutorial](chapter-7)
+  - [View Tutorial](chapter-07)
+- Displaying Paper Cat metadata.
+  - [View Tutorial](chapter-08)
 - Minting your first paper cat!
 - Styling your app.
 - Hosting your app on github.
