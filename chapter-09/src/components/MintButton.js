@@ -13,8 +13,6 @@ export function MintButton({ amount }) {
         setPromised(false);
       });
     }
-
-    return res;
   };
 
   return (

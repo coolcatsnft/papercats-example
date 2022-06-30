@@ -15,6 +15,14 @@ export function useMintPaperCat() {
   const [mintedTokens, setMintedTokens] = useState([]);
   const [error, setError] = useState();
 
+  /**
+   * React to the mintedTokens state changing.
+   * 
+   * This will create a unique array of token ids for the user and set
+   * that array as their walletOfOwner array if the length is larger.  
+   * 
+   * This will not account for transfers.
+   */
   useEffect(() => {
     if (mintedTokens.length) {
       const newTokens = [...new Set([...walletOfOwner].concat(mintedTokens))];
@@ -26,13 +34,28 @@ export function useMintPaperCat() {
     }
   }, [mintedTokens, walletOfOwner, setWalletOfOwner, setTotalSupply, setMintAmount]);
 
+  /**
+   * React to the error state changing.
+   * 
+   * If there is an error, set the mint amount to its default value.  
+   * 
+   * This will cause the app to revert out of its 'minting' state.
+   */
   useEffect(() => {
     if (error) {
-      setMintedTokens([]);
       setMintAmount(0);
     }
   }, [error, setMintAmount]);
 
+  /**
+   * We decided to use useCallback here.  This creates
+   * a memoized function that we can use in our app.  This approach should help
+   * reduce a re-render or two.
+   * 
+   * @param {number} amount
+   *
+   * @returns {Promise}
+   */
   const mint = useCallback((amount) => {    
     setError(undefined);
 
@@ -42,7 +65,7 @@ export function useMintPaperCat() {
     ]).then((data) => {
       const priceInWei = library.utils.toWei(price) * amount;
       const currentGasPrice = data[0];
-      if (priceInWei > Number(balance)) {
+      if (priceInWei > Number(library.utils.toWei(balance))) {
         throw new Error("Insufficient balance to Mint");
       }
 
@@ -52,6 +75,9 @@ export function useMintPaperCat() {
 
       setMintAmount(amount);
 
+      // In order for a smooth transaction to happen, we need to estimate the
+      // amount of gas its going to cost.  By using .estimateGas(), this returns
+      // a suitable amount of gas which we will use when we call .send().
       return contract.methods.adopt(
         amount
       ).estimateGas({
@@ -65,6 +91,9 @@ export function useMintPaperCat() {
           value: priceInWei,
           gas: parseInt((parseInt(gas, 10) * GAS_INCREMENT).toFixed(0), 10),
           gasPrice: (GASPRICE_INCREMENT * parseInt(currentGasPrice, 10)).toFixed(0),
+
+        // React to the confirmation event and add the new tokens from the
+        // events object
         }).on(
           "confirmation",
           (transactionConfirmationNumber, detail) => {
@@ -79,6 +108,8 @@ export function useMintPaperCat() {
 
             setMintedTokens(newTokens);
           }
+        
+        // Also react to the error event incase anything unexpected happens
         ).on("error", setError);
       }).catch(setError)
     })
