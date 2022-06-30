@@ -62,10 +62,10 @@ export function useFetchContract(contractAddress) {
     if (library && !abi && !loadingContract && !contractError) {
       setLoadingContract(true);
       fetchAbi().then((json) => {
-        setLoadingContract(false);
         setAbi(json);
       }).catch((err) => {
         setContractError(err.toString());
+      }).finally(() => {
         setLoadingContract(false);
       });
     }

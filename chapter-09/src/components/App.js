@@ -30,6 +30,8 @@ function App() {
           {<p>{walletOfOwner.length} paper cats in wallet found.</p>}
 
           <MintButton amount={1} />
+          <MintButton amount={2} />
+          <MintButton amount={3} />
 
           {walletOfOwner.map((id) => {
             return (
