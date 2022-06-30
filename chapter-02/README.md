@@ -75,4 +75,4 @@ Your react app should start and popup a new browser window with the following:
 
 <img src="../assets/chapter-2-cra-step3.png" />
 
-Congratulations, you have created you new react application!  In the [next chapter](../chapter-3/) we will look at customising our react app. See you there!
+Congratulations, you have created you new react application!  In the [next chapter](../chapter-03/) we will look at customising our react app. See you there!

@@ -3,7 +3,7 @@
 Now that we have our react app initialised we are in a position to start customising it!  
 
 ## TLDR
-In this chapter we are going to be modifying some of the default `create-react-app` components.  If you already know react, you can skip this chapter and move on to the [next](../chapter-4/).  If you just want to see a working example, [this is what we're going to produce](https://codesandbox.io/s/chapter-3-vanilla-react-js-6pt5mo).
+In this chapter we are going to be modifying some of the default `create-react-app` components.  If you already know react, you can skip this chapter and move on to the [next](../chapter-04/).  If you just want to see a working example, [this is what we're going to produce](https://codesandbox.io/s/chapter-3-vanilla-react-js-6pt5mo).
 
 ## Components?
 Your brand new react project folder should have the following contents:
@@ -35,4 +35,4 @@ If we remove all of the code from `src/App.css` and save the file, we should see
 Feel free to modify the `src/App.js` and `src/App.css` more and play around with live edits in your browser as thats is for this chapter.  Here we have learnt briefly about `JSX` and that making code edits will do a live reload of our site which should help speed up development time! 
 
 ## Whats next?
-In [Chapter 4](../chapter-4) we'll start looking at adding a [new Web3 connect component](https://github.com/coolcatsnft/web3-widget) onto our site.
+In [Chapter 4](../chapter-04) we'll start looking at adding a [new Web3 connect component](https://github.com/coolcatsnft/web3-widget) onto our site.

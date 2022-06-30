@@ -2,7 +2,7 @@
 We now have a working wallet connection and are successfully storing our wallet address, balance and library in our apps state. Looking forward we are going to need these variables accessible by the whole of our app which means we need to implement a mechanism which is capable of doing this.
 
 ### Housekeeping
-Before we start this chapter, I will point out that the code example has changed slightly from [chapter 4](../chapter-4).  All components will be moved into a `src/components` folder and any new hooks or contexts that we add will be created in their respective folders as well.  Your folder structure should look something like this now:
+Before we start this chapter, I will point out that the code example has changed slightly from [chapter 4](../chapter-04).  All components will be moved into a `src/components` folder and any new hooks or contexts that we add will be created in their respective folders as well.  Your folder structure should look something like this now:
 ```
 public
  -> index.html
@@ -223,4 +223,4 @@ Great job!  We have now built a framework that can provide our web3 data to all 
 In this example we've briefly covered some of the methods which are used to pass data around a React application.  We've also created a new Web3 context and custom hook which our application can now use to consume our web3 data!  Feel free to browse the [code repo](https://codesandbox.io/s/papercats-chapter-5-all-about-context-khx4rc) to see our finished version.
 
 ## Whats next?
-In the [next chapter](../chapter-6/) we will look at finally connecting to the paper cats contract.  See you there!
+In the [next chapter](../chapter-06/) we will look at finally connecting to the paper cats contract.  See you there!

@@ -1,6 +1,6 @@
 # Reading from the Papercats Contract
 
-In the [last chapter](../chapter-6) we discussed how to fetch an ABI file and instantiate a `web3.eth.Contract` object.  In this chapter we are going to start exploring what methods you as a developer have available in your new contract and again, we're going to use the Etherscan api as its going to be a big help visualising what's possible.  
+In the [last chapter](../chapter-06) we discussed how to fetch an ABI file and instantiate a `web3.eth.Contract` object.  In this chapter we are going to start exploring what methods you as a developer have available in your new contract and again, we're going to use the Etherscan api as its going to be a big help visualising what's possible.  
 
 ## TLDR
 Like in previous chapters, if you just want to have a look at some code, [this](https://codesandbox.io/s/papercats-chapter-7-reading-the-papercats-contract-n69jsf) is what we're going to be trying to acheive.
@@ -290,4 +290,4 @@ By moving our setters into a child context we can avoid the duplicate renders as
 In this chapter, we have covered how to interact with a `web3.eth.Contract` instance and using its methods, exposed its data into a hook and context.  We now have the tools to start displaying Paper Cat data in our app and in an upcoming chapter, being able to mint our own Paper Cat as well.  [Click here](https://codesandbox.io/s/papercats-chapter-7-reading-the-papercats-contract-n69jsf) for the full code example.
 
 ## Whats next?
-In the [next chapter](../chapter-8), we'll look at using the `tokenUri` method in our contract object to get our Paper Cats repository location and use that to fetch its metadata.  See you there!
+In the [next chapter](../chapter-08), we'll look at using the `tokenUri` method in our contract object to get our Paper Cats repository location and use that to fetch its metadata.  See you there!

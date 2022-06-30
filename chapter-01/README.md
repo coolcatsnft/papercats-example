@@ -26,4 +26,4 @@ You should get something like the following:
 
 If you don't see the above or if your version is lower than 16.x then try installing the latest node version again.
 
-If you see something similar to the image above, great! You are ready to start your first Web3 project.  [Go to Chapter 2](../chapter-2/).
+If you see something similar to the image above, great! You are ready to start your first Web3 project.  [Go to Chapter 2](../chapter-02/).
