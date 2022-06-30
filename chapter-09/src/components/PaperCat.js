@@ -2,7 +2,7 @@ import { useFetchPaperCat } from "../hooks/useFetchPaperCat";
 
 export function PaperCat({ id }) {
   const { error, tokenUri, paperCat } = useFetchPaperCat(id);
-  const loading = !error && !tokenUri;
+  const loading = !error && !tokenUri && !paperCat;
 
   return (
     <>

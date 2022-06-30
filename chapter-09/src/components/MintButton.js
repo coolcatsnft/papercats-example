@@ -1,15 +1,26 @@
+import { useState } from "react";
 import useAdoptPaperCat from "../hooks/useAdoptPaperCat"
 
 export function MintButton({ amount }) {
-  const { adopt, error, adopting } = useAdoptPaperCat();
+  const { adopt, error, minting } = useAdoptPaperCat();
+  const [promised, setPromised] = useState(false);
+
   const startAdoption = () => {
-    return adopt(amount);
-  }
+    const res = adopt(amount);
+    if (res instanceof Promise) {
+      setPromised(true);
+      res.finally(() => {
+        setPromised(false);
+      });
+    }
+
+    return res;
+  };
 
   return (
     <>
-      {error && <p>{error.toString()}</p>}
-      <button disabled={adopting} onClick={startAdoption}>Mint {amount}</button>
+      {error && <p>{error.message || error.toString()}</p>}
+      <button disabled={minting || promised} onClick={startAdoption}>Mint {amount}</button>
     </>
   )
 }

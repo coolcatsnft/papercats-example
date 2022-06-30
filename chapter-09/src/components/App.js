@@ -31,7 +31,7 @@ function App() {
 
           <MintButton amount={1} />
 
-          {Array.from(Array(Number(totalSupply)).keys()).map((id) => {
+          {walletOfOwner.map((id) => {
             return (
               <PaperCat id={id} key={id} />
             )

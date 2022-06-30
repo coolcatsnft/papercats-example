@@ -10,7 +10,7 @@ export function useFetchPaperCatsContractData() {
   const [name, setName] = useState('');
   const [paused, setPaused] = useState(false);
   const [price, setPrice] = useState(0);
-  const [totalSupply, setTotalSupply] = useState('');
+  const [totalSupply, setTotalSupply] = useState(0);
   const [walletOfOwner, setWalletOfOwner] = useState([]);
   const [error, setError] = useState();
 
@@ -28,7 +28,7 @@ export function useFetchPaperCatsContractData() {
         setPaused(data[0]);
         setPrice(data[1]);
         setName(data[2]);
-        setTotalSupply(data[3]);
+        setTotalSupply(Number(data[3]));
         setWalletOfOwner(data[4]);
         setLoaded(true);
       }).catch((e) => {

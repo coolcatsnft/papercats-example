@@ -19,9 +19,7 @@ export function useFetchPaperCat(id) {
         id
       ).call().then((tokenURI) => {
         setTokenUri(tokenURI);
-      }).catch((err) => {
-        setError(err);
-      });
+      }).catch(setError);
     }
   }, [id, contract, tokenUri, setTokenUri, error]);
 
@@ -36,13 +34,29 @@ export function useFetchPaperCat(id) {
         }
 
         response.json().then((data) => {
+          if (!data.attributes) {
+            throw new Error(`Attributes missing from papercat #${id} metadata`);
+          }
+          
           setPaperCat({ ...{ id: String(id) }, ...data });
-        });
-      }).catch((err) => {
-        setError(err);
-      });
+        }).catch(setError);
+      }).catch(setError);
     }
   }, [id, contract, tokenUri, paperCat, setPaperCat, error]);
+
+  // Sometimes the metadata isn't populated after a fetch.  This is because
+  // the app and the metadata server are listening for the same event.
+  // Incase this happens, we refetch the data after 5 seconds.
+  useEffect(() => {
+    if (error 
+      && Object(error).hasOwnProperty('message') 
+      && error.message.indexOf('Attributes') >= 0
+    ) {
+      setTimeout(() => {
+        setError(undefined);
+      }, 5000);
+    }
+  }, [error]);
 
   return { tokenUri, paperCat, error };
 };
