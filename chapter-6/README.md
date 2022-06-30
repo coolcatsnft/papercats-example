@@ -49,17 +49,16 @@ export function useFetchContract(contractAddress) {
     if (library && !contract && !loadingContract && !contractError) {
       setLoadingContract(true);
       fetchAbi().then((json) => {
-        setLoadingContract(false);
         setContract(new library.eth.Contract(json, contractAddress));
       }).catch((err) => {
         setContractError(err);
+      }).finally(() => {
         setLoadingContract(false);
       });
     }
 
     if (!library && contract) {
       setContract(undefined);
-      setLoadingContract(false);
     }
   }, [contractAddress, library, contract, loadingContract, contractError]);
 

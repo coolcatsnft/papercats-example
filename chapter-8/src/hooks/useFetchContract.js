@@ -59,15 +59,20 @@ export function useFetchContract(contractAddress) {
       });
     };
 
-    if (library && !abi && !loadingContract && !contractError) {
+    if (library && !contract && !loadingContract && !contractError) {
       setLoadingContract(true);
       fetchAbi().then((json) => {
-        setLoadingContract(false);
-        setAbi(json);
+        setContract(new library.eth.Contract(json, contractAddress));
       }).catch((err) => {
         setContractError(err.toString());
+      }).finally(() => {
         setLoadingContract(false);
       });
+    }
+
+    if (!library && contract) {
+      setContract(undefined);
+      setLoadingContract(false);
     }
   }, [contractAddress, library, contract, loadingContract, contractError, abi, setAbi]);
 
