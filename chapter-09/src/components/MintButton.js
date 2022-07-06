@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useMintPaperCat from "../hooks/useMintPaperCat"
 
 export function MintButton({ amount }) {
   const { mint, error, mintAmount } = useMintPaperCat();
   const [promised, setPromised] = useState(false);
-
-  const startMinting = () => {
+  
+  const startMinting = useCallback(() => {
     const res = mint(amount);
     if (res instanceof Promise) {
       setPromised(true);
@@ -13,7 +13,7 @@ export function MintButton({ amount }) {
         setPromised(false);
       });
     }
-  };
+  }, [mint, amount]);
 
   return (
     <>
