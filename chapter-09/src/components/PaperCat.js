@@ -2,7 +2,7 @@ import { useFetchPaperCat } from "../hooks/useFetchPaperCat";
 
 export function PaperCat({ id }) {
   const { error, tokenUri, paperCat } = useFetchPaperCat(id);
-  const loading = !error && !tokenUri && !paperCat;
+  const loading = !error && (!tokenUri || !paperCat);
 
   return (
     <>
@@ -13,7 +13,7 @@ export function PaperCat({ id }) {
           <ul>
             {paperCat.attributes.map((attr, i) => (
               <li key={i}>
-                {attr.trait_type}: {attr.value}
+                {attr.trait_type}: {attr.value.toUpperCase()}
               </li>
             ))}
           </ul>
