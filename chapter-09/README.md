@@ -85,6 +85,23 @@ Firstly, lets get the current gas price via the library method [getGasPrice](htt
         throw new Error("Minting is currently paused");
       }
 ```
-In the above code block we are retreiving the gas price and checking the paused status of the contract.
+In the above code block we are retreiving the gas price and checking the paused status of the contract.  As an enchancement, we could also check that the user has enough ETH in their balance to cover the mint cost.  We can use the library method `utils.toWei` to get the wei amount of a number so what we've done is throw an exception if the users balance in wei is less than the cost of the eth to mint (also in wei:
+```js
+  const mint = useCallback((amount) => {    
+    return Promise.all([
+      library.eth.getGasPrice(),
+      contract.methods._paused().call()
+    ]).then((data) => {
+      const currentGasPrice = data[0];
+      const paused = data[1];
+      if (paused === true) {
+        throw new Error("Minting is currently paused");
+      }
+      
+      const priceInWei = library.utils.toWei(price) * amount;
+      if (priceInWei > Number(library.utils.toWei(balance))) {
+        throw new Error("Insufficient balance to Mint");
+      }
+```
 
 To be continued
