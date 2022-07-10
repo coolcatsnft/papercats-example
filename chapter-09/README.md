@@ -54,14 +54,13 @@ import { useCallback, useState } from "react";
 import useMintPaperCat from "../hooks/useMintPaperCat"
 
 export function MintButton({ amount }) {
-  const { mint, error, mintAmount } = useMintPaperCat();
+  const { mint, mintAmount } = useMintPaperCat();
   const startMinting = useCallback(() => {
     return mint(amount);
   }, [mint, amount]);
 
   return (
     <>
-      {error && <p>{error.message || error.toString()}</p>}
       <button disabled={mintAmount > 0} onClick={startMinting}>{mintAmount === amount ? 'Minting...' : `Mint ${amount}`}</button>
     </>
   )
@@ -70,5 +69,22 @@ export function MintButton({ amount }) {
 In this component, we are accepting an `amount` parameter so our `<MintButton>` component can be used for different mint amounts.  We are also disabling our button if our `mintAmount` is greater than zero and setting the text of the button to `Minting...` if the `amount` matches the `mintAmount`.
 
 Now that we have some boilerplate code, let's start filling some of the blanks in!
+
+For every transaction on the ETH network we need to send an additional amount to cover the network processing, there is also a level of competition tied to this amount so the more you pay, the quicker your transaction will go through.  So in order to ensure our transactio goes through we need to send an adequate gas estimation but also not overpay it either.  Fortunately, the web3 library has tools to help so lets see what we can do:
+
+Firstly, lets get the current gas price via the library method [getGasPrice](https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#getgasprice) and for good measure, we should check that the mint process is active by checking its paused status again.  If Our `mint` method add the following:
+```js
+  const mint = useCallback((amount) => {    
+    return Promise.all([
+      library.eth.getGasPrice(),
+      contract.methods._paused().call()
+    ]).then((data) => {
+      const currentGasPrice = data[0];
+      const paused = data[1];
+      if (paused === true) {
+        throw new Error("Minting is currently paused");
+      }
+```
+In the above code block we are retreiving the gas price and checking the paused status of the contract.
 
 To be continued
