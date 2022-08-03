@@ -103,5 +103,98 @@ In the above code block we are retreiving the gas price and checking the paused 
         throw new Error("Insufficient balance to Mint");
       }
 ```
+Now that we have performed some basic client side validation, we can start looking at calling our contract.  Firstly, lets set our mint amount using `setMintAmount`, this is important as we can test against this value to see if the there is a mint ongoing or not.  Secondly, we can call the `estimateGas` ([see docs](https://web3js.readthedocs.io/en/v1.2.11/web3-eth-contract.html#contract-estimategas)) method returned from the `adopt` method on the contract.  This is also important as it allows us to send a gas threshold when performing the proper transaction.
+```js
+    setMintAmount(amount);
 
-To be continued
+    // In order for a smooth transaction to happen, we need to estimate the
+    // amount of gas its going to cost.  By using .estimateGas(), this returns
+    // a suitable amount of gas which we will use when we call .send().
+    return contract.methods
+      .adopt(amount)
+      .estimateGas({
+        from: address,
+        value: priceInWei
+      }).then((gas) => {
+        // ... Further transaction code will go here
+      }).catch(setError);
+```
+The above example also calls `setError`, a local state variable to hold any errors that the mint process might encounter.  We can also react to this error using `useEffect` and set the mintAmount variable back to zero, effectively cancelling our mint process.
+```js
+    useEffect(() => {
+      if (error) {
+        setMintAmount(0);
+      }
+    }, [error]);
+```
+Let's now continue the `adopt` process by calling `.send` instead of `.estimateGas` now:
+```js
+    // ...continued from previous
+    }).then((gas) => {
+      return contract.methods
+        .adopt(amount)
+        .send({
+          from: address,
+          value: priceInWei,
+          gas: parseInt(
+            (parseInt(gas, 10) * 1.2).toFixed(0),
+            10
+          ),
+          gasPrice: (
+            1.2 * parseInt(currentGasPrice, 10)
+          ).toFixed(0)
+
+          // React to the confirmation event and add the new tokens from the
+          // events object
+        }).on(
+          "confirmation",
+          (transactionConfirmationNumber, detail) => {
+            const newTokens = [];
+            if (Array.isArray(detail.events.Transfer)) {
+              detail.events.Transfer.forEach((d) => {
+                newTokens.push(d.returnValues.tokenId);
+              });
+            } else {
+              newTokens.push(detail.events.Transfer.returnValues.tokenId);
+            }
+
+            setMintedTokens(newTokens);
+          }
+
+          // Also react to the error event incase anything unexpected happens
+        )
+        .on("error", setError);
+```
+In the above code, we are calling `.adopt().send()` with four parameters.  The address of the user, the value (currently this is zero), the `gas` which is the maximum amount of gas in wei that should be used for this transaction (note, we are adding a safety net of a 1.2 multiplier to avoid any gas fluctations) and the `gasPrice` which is the current gas price (note, also multiplied by 1.2 to allow for fluctuations).  Once called, the `.send` method returns a [Promise Event](https://web3js.readthedocs.io/en/v1.2.11/callbacks-promises-events.html#promievent) that we are using to subscribe to the events emited from the blockchain.  In our code, we are listening to the `confirmation` and `error` events.  The error event is simple, we react to an error event in the same way we handle a promise error by setting the error property using `setError`, this will again cancel the mint process if this event occurs.  The confirmation event is the final event of the transaction and will include our newly minted token ids in the receipt data.  Depending on how many tokens we chose to mint will determine if the receipt data is an Array or Object, so we're doing a quick check using `Array.isArray` on the value and either returning the `detail.events.Transfer.returnValues.tokenId` or iterate through `detail.events.Transfer` to return all of the `tokenId` properties it contains.  Once complete, we then set our newly minted tokens as a state variable (via setMintedTokens) where we can react to the change using `useEffect`:
+```js
+
+  /**
+   * React to the mintedTokens state changing.
+   *
+   * This will create a unique array of token ids for the user and set
+   * that array as their walletOfOwner array if the length is larger.
+   */
+  useEffect(() => {
+    if (mintedTokens.length) {
+      const newTokens = [...new Set([...walletOfOwner].concat(mintedTokens))];
+      if (newTokens.length > walletOfOwner.length) {
+        setWalletOfOwner(newTokens);
+        setTotalSupply((s) => s + mintedTokens.length);
+        setMintAmount(0);
+      }
+    }
+  }, [
+    mintedTokens,
+    walletOfOwner,
+    setWalletOfOwner,
+    setTotalSupply,
+    setMintAmount
+  ]);
+```
+Here we are responding to the mintedTokens change and passing a new set of ids back to our context.  The react app will respond and show the new paper cats in the users inventory!
+
+## Summary
+In our [final example ](https://codesandbox.io/s/papercats-chapter-9-minting-a-papercat-3urk9c), I have compiled all of the code in the chapter into a working example.  The `components/App.js` file now has three `MintButton` components which allow for minting one to three cats at once!
+
+## Whats next?
+In the [next chapter](../chapter-10), we'll look at adding some style to our app via `styled-components`.  See you there!
